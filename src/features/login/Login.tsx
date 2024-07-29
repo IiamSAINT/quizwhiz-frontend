@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import RegBanner from "../../ui/RegBanner";
 import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+  }
 
   return (
     <div className="flex">
@@ -13,7 +17,7 @@ function Login() {
           <h1 className="text-center font-semibold text-6xl mb-10 font-cabinSketch">
             Welcome Back
           </h1>
-          <form action="" className="font-oxygen">
+          <form action="POST" className="font-oxygen" onSubmit={handleSubmit}>
             <div className="mb-5">
               <label htmlFor="username" className=" block mb-2 font-semibold">
                 Email
@@ -27,23 +31,19 @@ function Login() {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="username" className=" block mb-2 font-semibold">
+              <label htmlFor="password" className=" block mb-2 font-semibold">
                 Password
               </label>
               <input
                 type="password"
-                id="username"
+                id="password"
                 className="bg-gray-300 rounded-md block w-full focus:outline-none py-2 px-2"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div>
-              <input
-                type="button"
-                value="Submit"
-                className="bg-blue-600 block w-full py-2 text-white rounded"
-              />
+              <button type="submit" className="bg-blue-600 block w-full py-2 text-white rounded">Login</button>
             </div>
           </form>
           <div className="text-center mt-5">

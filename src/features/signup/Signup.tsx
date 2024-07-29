@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import RegBanner from "../../ui/RegBanner";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,12 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  function handleSubmit(e: FormEvent) {
+    console.log("Hello From the Submit button 👋👋");
+
+    e.preventDefault();
+  }
+
   return (
     <div className="flex">
       <div className="w-1/2 h-screen flex items-center justify-center bg-gray-100">
@@ -14,49 +20,50 @@ function Signup() {
           <h1 className="text-center font-semibold text-5xl mb-10 font-cabinSketch">
             Create Account
           </h1>
-          <form action="" className="font-oxygen">
+          <form action="POST" className="font-oxygen" onSubmit={handleSubmit}>
             <div className="mb-5">
-              <label htmlFor="username" className=" block mb-2 font-semibold">
+              <label htmlFor="fullname" className=" block mb-2 font-semibold">
                 FullName
               </label>
               <input
                 type="text"
-                id="username"
+                id="fullname"
                 className="bg-gray-300 rounded-md block w-full focus:outline-none py-2 px-2"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="mb-5">
-              <label htmlFor="username" className=" block mb-2 font-semibold">
+              <label htmlFor="email" className=" block mb-2 font-semibold">
                 Email
               </label>
               <input
                 type="email"
-                id="username"
+                id="email"
                 className="bg-gray-300 rounded-md block w-full focus:outline-none py-2 px-2"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="username" className=" block mb-2 font-semibold">
+              <label htmlFor="password" className=" block mb-2 font-semibold">
                 Password
               </label>
               <input
                 type="password"
-                id="username"
+                id="password"
                 className="bg-gray-300 rounded-md block w-full focus:outline-none py-2 px-2"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div>
-              <input
-                type="button"
-                value="Submit"
+              <button
+                type="submit"
                 className="bg-blue-600 block w-full py-2 text-white rounded"
-              />
+              >
+                Login
+              </button>
             </div>
           </form>
           <div className="text-center mt-5">
