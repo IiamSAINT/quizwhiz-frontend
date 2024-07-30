@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import RegBanner from "../../ui/RegBanner";
 import { Link } from "react-router-dom";
+import { validateLogin } from "../../services/Authentication";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,8 @@ function Login() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
+    validateLogin({ email: email, password: password });
   }
 
   return (

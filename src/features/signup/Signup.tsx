@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import RegBanner from "../../ui/RegBanner";
 import { Link } from "react-router-dom";
+import { validateSignup } from "../../services/Authentication";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -9,8 +10,9 @@ function Signup() {
 
   function handleSubmit(e: FormEvent) {
     console.log("Hello From the Submit button 👋👋");
-
     e.preventDefault();
+
+    validateSignup({ name, email, password });
   }
 
   return (
@@ -62,7 +64,7 @@ function Signup() {
                 type="submit"
                 className="bg-blue-600 block w-full py-2 text-white rounded"
               >
-                Login
+                Create Account
               </button>
             </div>
           </form>
