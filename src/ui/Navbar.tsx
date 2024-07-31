@@ -9,7 +9,7 @@ function Navbar() {
         <NavLink to="/" className='me-5'>Quiz</NavLink>
       </ul>
       <div>
-        <Link to="/">Login</Link>
+        <Link to="/login">Login</Link>
       </div>
     </nav>
   );

@@ -1,5 +1,5 @@
-import Features from "../../ui/Features";
-import Navbar from "../../ui/Navbar";
+import Features from "./Features";
+import Navbar from "./Navbar";
 
 function Homepage() {
   return (

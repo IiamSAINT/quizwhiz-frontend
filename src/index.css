@@ -4,6 +4,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.sidebar .active{
-    background-color: red;
-}

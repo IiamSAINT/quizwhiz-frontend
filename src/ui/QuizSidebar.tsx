@@ -10,13 +10,16 @@ export default function QuizSidebar() {
           className="w-24 h-24 rounded-full object-cover object-center mx-auto mb-5"
         />
         <h1 className="text-2xl font-bold">Name</h1>
-        <p>Email</p> 
+        <p>Email</p>
       </div>
       <ul className="sidebar mt-5">
-        <NavLink to="" className="block py-3 ps-4 rounded-s-full ms-4">
+        <NavLink to="/app" className="block py-3 ps-4 rounded-s-full ms-4 active:bg-slate-600">
           Home
         </NavLink>
-        <NavLink to="/" className="block py-3 ps-4 rounded-s-full ms-4">
+        <NavLink
+          to="/app/create"
+          className="block py-3 ps-4 rounded-s-full ms-4"
+        >
           Create Quiz
         </NavLink>
         <NavLink to="/" className="block py-3 ps-4 rounded-s-full ms-4">
