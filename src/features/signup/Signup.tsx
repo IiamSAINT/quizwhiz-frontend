@@ -2,17 +2,22 @@ import { FormEvent, useState } from "react";
 import RegBanner from "../../ui/RegBanner";
 import { Link } from "react-router-dom";
 import { validateSignup } from "../../services/Authentication";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
   function handleSubmit(e: FormEvent) {
     console.log("Hello From the Submit button 👋👋");
     e.preventDefault();
 
     validateSignup({ name, email, password });
+    navigate("/")
+
+    
   }
 
   return (

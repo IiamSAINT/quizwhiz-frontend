@@ -24,8 +24,8 @@ function Features() {
       </h1>
 
       <div className="flex gap-5 mt-7">
-        {features.map((feature) => (
-          <div className="w-1/3 rounded-lg border-2 py-5 shadow-xl">
+        {features.map((feature, i) => (
+          <div className="w-1/3 rounded-lg border-2 py-5 shadow-xl" key={i}>
             <div className="text-start py-1 px-4 bg-blue-600 w-10/12 text-base text-white">
               {feature.badge}
             </div>
