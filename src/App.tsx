@@ -18,6 +18,7 @@ const router = createBrowserRouter([
   },
 ]);
 
+		element: <TestingPage />,
 function App() {
   return <RouterProvider router={router} />;
 }
