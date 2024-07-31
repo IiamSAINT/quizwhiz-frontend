@@ -5,6 +5,8 @@ export default {
     extend: {
       colors: {
         myblue: "#2563eb",
+        textColor: "#4B5563",
+        grad: "linear-gradient(to right, rgba(37, 99, 235, 0.8), rgba(255,255,255, 1))",
       },
       fontFamily: {
         oxygen: ["Oxygen", "sans-serif"],

@@ -1,3 +1,4 @@
+import Features from "../../ui/Features";
 import Navbar from "../../ui/Navbar";
 
 function Homepage() {
@@ -18,11 +19,85 @@ function Homepage() {
             <input
               type="text"
               placeholder="Enter code here"
-              className="py-2 px-4 rounded-full focus:outline-1 focus:outline-blue-100"
+              className="py-3 px-6 font-bold rounded-full focus:outline-1 focus:outline-blue-100"
             />
           </form>
         </div>
       </header>
+
+      <section className="my-20">
+        <div className="text-center">
+          <div className="inline-block bg-gray-200 py-3 px-4 rounded-lg">
+            How it works
+          </div>
+          <h1 className="mt-5 text-4xl mb-2">
+            Get Started in 3 Steps
+          </h1>
+        </div>
+        <div className="bg-grad my-5">
+          <div className="w-10/12 mx-auto flex justify-between items-center ">
+            <div className="w-1/2  py-7 px-5">
+              <h1 className="text-4xl font-cabin font-bold">1. Create</h1>
+              <p className="text-lg mt-10 w-10/12">
+                Create from scratch, from a template or with AI. <br />
+                Customize your item based on your use-case and brand. It takes
+                minutes to get started.
+              </p>
+            </div>
+            <div className="img w-1/2 h-96  flex justify-center items-center ">
+              <div className="w-[80%] h-[80%]">
+                <img
+                  src="src\assets\images\login.jpg"
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-grad my-5">
+          <div className="w-10/12 mx-auto flex flex-row-reverse justify-between items-center ">
+            <div className="w-1/2  py-7 px-5">
+              <h1 className="text-4xl font-cabin font-bold">2. Join a Quiz</h1>
+              <p className="text-lg mt-10 w-10/12">
+                Create from scratch, from a template or with AI. <br />
+                Customize your item based on your use-case and brand. It takes
+                minutes to get started.
+              </p>
+            </div>
+            <div className="img w-1/2 h-96  flex justify-center items-center ">
+              <div className="w-[80%] h-[80%]">
+                <img
+                  src="src\assets\images\login.jpg"
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-grad my-5">
+          <div className="w-10/12 mx-auto flex justify-between items-center ">
+            <div className="w-1/2  py-7 px-5">
+              <h1 className="text-4xl font-cabin font-bold">3. View Scores</h1>
+              <p className="text-lg mt-10 w-10/12">
+                Create from scratch, from a template or with AI. <br />
+                Customize your item based on your use-case and brand. It takes
+                minutes to get started.
+              </p>
+            </div>
+            <div className="img w-1/2 h-96  flex justify-center items-center ">
+              <div className="w-[80%] h-[80%]">
+                <img
+                  src="src\assets\images\login.jpg"
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="my-20 text-center font-cabin">
         <div className="inline-block bg-gray-200 py-3 px-4 rounded-lg">
@@ -62,6 +137,10 @@ function Homepage() {
           </div>
         </div>
       </section>
+
+      <section></section>
+
+      <Features />
     </div>
   );
 }
