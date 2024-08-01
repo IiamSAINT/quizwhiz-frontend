@@ -1,4 +1,5 @@
-const URL = "https://quizwhiz-backend.onrender.com/api/v1/";
+// const URL = "https://quizwhiz-backend.onrender.com/api/v1/";
+const URL = "http://localhost:3000/api/v1/";
 
 export async function validateLogin(input: object) {
 	const res = await fetch(`${URL}auth/login`, {
@@ -23,3 +24,12 @@ export async function validateSignup(input: object) {
 	const data = await res.json();
 	return data;
 }
+
+export const checkAuthStatus = async () => {
+	const response = await fetch(`${URL}quiz`, {
+		method: "GET",
+		credentials: "include", // Important for sending cookies
+	});
+	console.log(response);
+	return response.ok;
+};
