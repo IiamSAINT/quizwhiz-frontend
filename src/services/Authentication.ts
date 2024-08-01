@@ -1,14 +1,17 @@
 // const URL = "https://quizwhiz-backend.onrender.com/api/v1/";
 const URL = "http://localhost:3000/api/v1/";
 
-export async function validateLogin(input: object) {
+export async function validateLogin(email: string, password: string) {
+	const object = { email, password };
 	const res = await fetch(`${URL}auth/login`, {
 		method: "POST",
-		body: JSON.stringify(input),
+		body: JSON.stringify(object),
 		headers: {
 			"Content-Type": "application/json",
 		},
 	});
+
+	console.log(res);
 	const data = await res.json();
 	return data;
 }
@@ -26,10 +29,15 @@ export async function validateSignup(input: object) {
 }
 
 export const checkAuthStatus = async () => {
-	const response = await fetch(`${URL}quiz`, {
+	const response = await fetch(`${URL}auth/check`, {
 		method: "GET",
-		credentials: "include", // Important for sending cookies
+		credentials: "include",
 	});
-	console.log(response);
+
+	const data = await response.json();
+	console.log(data);
+	if (data.status === "success") return true;
+	if (data.status !== "success") return false;
+
 	return response.ok;
 };
