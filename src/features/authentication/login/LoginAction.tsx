@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, redirect } from "react-router-dom";
-import { validateLogin } from "../../services/Authentication";
+import { validateLogin } from "../../../services/Authentication";
 
 const action = async (obj: ActionFunctionArgs) => {
 	const request = obj.request;
@@ -8,10 +8,9 @@ const action = async (obj: ActionFunctionArgs) => {
 	email = email + "";
 	password = password + "";
 	const data = await validateLogin(email, password);
-    // TODO
-    // Save USer Data in Global Context when Created
 
 	return redirect("/app");
+	return null;
 };
 
 export default action;

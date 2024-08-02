@@ -1,13 +1,13 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import QuizSidebar from "../../ui/QuizSidebar";
-import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import useIsLoggedIn from "../authentication/useIsLoggedIn";
+import { useAuth } from "../authentication/AuthContext";
 
 function QuizPage() {
-	const isLoggedIn = useIsLoggedIn();
-
-	if (isLoggedIn === "loading") return <h1>LOADING</h1>;
-	if (!isLoggedIn) return <Navigate to="/" />;
-
+	useIsLoggedIn();
+	const { isAuthenticated, isLoading } = useAuth();
+	if (isLoading) return <h1>LOADING</h1>;
+	if (!isAuthenticated && !isLoading) return <div>Errorrr</div>;
 	return (
 		<div className="w-11/12 mx-auto flex gap-5">
 			<QuizSidebar />

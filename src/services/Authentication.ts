@@ -9,6 +9,7 @@ export async function validateLogin(email: string, password: string) {
 		headers: {
 			"Content-Type": "application/json",
 		},
+		credentials: "include",
 	});
 
 	console.log(res);
@@ -36,7 +37,7 @@ export const checkAuthStatus = async () => {
 
 	const data = await response.json();
 	console.log(data);
-	if (data.status === "success") return true;
+	if (data.status === "success") return { user: data.data };
 	if (data.status !== "success") return false;
 
 	return response.ok;

@@ -1,4 +1,4 @@
-import RegBanner from "../../ui/RegBanner";
+import RegBanner from "../../../ui/RegBanner";
 import { Form, Link, useNavigation } from "react-router-dom";
 
 function Login() {
