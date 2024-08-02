@@ -36,7 +36,6 @@ export const checkAuthStatus = async () => {
 	});
 
 	const data = await response.json();
-	console.log(data);
 	if (data.status === "success") return { user: data.data };
 	if (data.status !== "success") return false;
 

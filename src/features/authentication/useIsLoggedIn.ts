@@ -16,9 +16,9 @@ const useIsLoggedIn = function () {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (isAuthenticated) return;
+		// if (isAuthenticated) return;
 		checkIsLoggedIn();
-	}, [isAuthenticated, checkIsLoggedIn]);
+	}, [isAuthenticated, checkIsLoggedIn, dispatch]);
 
 	return null;
 };
