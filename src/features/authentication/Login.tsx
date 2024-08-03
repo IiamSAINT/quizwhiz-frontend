@@ -1,9 +1,10 @@
-import RegBanner from "../../../ui/RegBanner";
-import { Form, Link, useNavigation } from "react-router-dom";
+import RegBanner from "../../ui/RegBanner";
+import { Form, Link, useActionData, useNavigation } from "react-router-dom";
 
 function Login() {
 	const navigation = useNavigation();
 	const loading = navigation.state === "submitting";
+	const errMessage = useActionData();
 
 	return (
 		<div className="flex">
@@ -14,18 +15,18 @@ function Login() {
 					</h1>
 					<Form method="POST" className="font-oxygen" action="/login">
 						<div className="mb-5">
-							<label htmlFor="email" className=" block mb-2 font-semibold">
+							<label htmlFor="email" className="block mb-2 font-semibold">
 								Email
 							</label>
 							<input
 								type="email"
 								id="email"
 								name="email"
-								className="bg-gray-300 rounded-md block w-full focus:outline-none py-2 px-2"
+								className="bg-gray-300 rounded-md block w-full  py-2 px-2 focus:outline-none"
 							/>
 						</div>
 						<div className="mb-6">
-							<label htmlFor="password" className=" block mb-2 font-semibold">
+							<label htmlFor="password" className="block mb-2 font-semibold">
 								Password
 							</label>
 							<input
@@ -33,9 +34,10 @@ function Login() {
 								type="password"
 								id="password"
 								min={8}
-								className="bg-gray-300 rounded-md block w-full focus:outline-none py-2 px-2"
+								className="bg-gray-300 rounded-md block w-full py-2 px-2 focus:outline-none"
 							/>
 						</div>
+						<p>{errMessage ? errMessage + "" : ""}</p>
 						<div>
 							<button
 								type="submit"

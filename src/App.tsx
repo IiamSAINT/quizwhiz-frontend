@@ -1,11 +1,11 @@
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
-import Login from "./features/authentication/login/Login";
-import Signup from "./features/authentication/signup/Signup";
+import Login from "./features/authentication/Login";
+import Signup from "./features/authentication/Signup";
 import Homepage from "./ui/Homepage";
 import TestingPage from "./pages/TestingPage";
-import QuizPage from "./features/Quiz/QuizPage";
-import CreateQuiz from "./features/Quiz/CreateQuiz";
-import loginAction from "./features/authentication/login/LoginAction";
+import QuizPage from "./features/quiz/QuizPage";
+import CreateQuiz from "./features/quiz/CreateQuiz";
+import loginAction from "./features/authentication/LoginAction";
 import AuthProvider from "./features/authentication/AuthContext";
 
 const router = createBrowserRouter([

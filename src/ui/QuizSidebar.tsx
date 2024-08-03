@@ -12,7 +12,7 @@ export default function QuizSidebar() {
 					alt=""
 					className="w-24 h-24 rounded-full object-cover object-center mx-auto mb-5"
 				/>
-				<h1 className="text-2xl font-bold">Name {user.name}</h1>
+				<h1 className="text-2xl font-bold username">Name {user.name}</h1>
 				<p>Email {user.email}</p>
 			</div>
 			<ul className="sidebar mt-5">

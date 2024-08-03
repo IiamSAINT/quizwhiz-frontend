@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
-import RegBanner from "../../../ui/RegBanner";
+import RegBanner from "../../ui/RegBanner";
 import { Link } from "react-router-dom";
-import { validateSignup } from "../../../services/Authentication";
+import { validateSignup } from "../../services/Authentication";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {

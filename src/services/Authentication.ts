@@ -2,19 +2,23 @@
 const URL = "http://localhost:3000/api/v1/";
 
 export async function validateLogin(email: string, password: string) {
-	const object = { email, password };
-	const res = await fetch(`${URL}auth/login`, {
-		method: "POST",
-		body: JSON.stringify(object),
-		headers: {
-			"Content-Type": "application/json",
-		},
-		credentials: "include",
-	});
+	try {
+		const object = { email, password };
+		console.log(email, password);
 
-	console.log(res);
-	const data = await res.json();
-	return data;
+		const res = await fetch(`${URL}auth/login`, {
+			method: "POST",
+			body: JSON.stringify(object),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include",
+		});
+		const data = await res.json();
+		return data;
+	} catch (err) {
+		throw new Error("Network Error. Please Connect to the internet");
+	}
 }
 
 export async function validateSignup(input: object) {

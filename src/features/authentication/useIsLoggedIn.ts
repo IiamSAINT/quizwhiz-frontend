@@ -3,7 +3,7 @@ import { checkAuthStatus } from "../../services/Authentication";
 import { useAuth } from "./AuthContext";
 
 const useIsLoggedIn = function () {
-	const { isAuthenticated, dispatch } = useAuth();
+	const { dispatch } = useAuth();
 
 	const checkIsLoggedIn = useCallback(async () => {
 		dispatch({ type: "auth/loading" });
@@ -18,7 +18,7 @@ const useIsLoggedIn = function () {
 	useEffect(() => {
 		// if (isAuthenticated) return;
 		checkIsLoggedIn();
-	}, [isAuthenticated, checkIsLoggedIn, dispatch]);
+	}, [checkIsLoggedIn, dispatch]);
 
 	return null;
 };
