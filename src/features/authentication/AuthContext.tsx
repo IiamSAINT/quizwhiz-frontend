@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
 	createContext,
 	Dispatch,
@@ -73,7 +74,7 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 };
 
 // AuthProvider component with PropsWithChildren type
-const AuthProvider = (props: PropsWithChildren<{}>) => {
+const AuthProvider = (props: PropsWithChildren<object>) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
 
 	return (
