@@ -1,5 +1,5 @@
-// const URL = "https://quizwhiz-backend.onrender.com/api/v1/";
-const URL = "http://localhost:3000/api/v1/";
+const URL = "https://quizwhiz-backend.onrender.com/api/v1/";
+// const URL = "http://localhost:3000/api/v1/";
 
 export async function validateLogin(email: string, password: string) {
 	const object = { email, password };
