@@ -21,16 +21,26 @@ export async function validateLogin(email: string, password: string) {
 	}
 }
 
-export async function validateSignup(input: object) {
-	const res = await fetch(`${URL}auth/signup`, {
-		method: "POST",
-		body: JSON.stringify(input),
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
-	const data = await res.json();
-	return data;
+export async function validateSignup(
+	name: string,
+	email: string,
+	password: string
+) {
+	try {
+		const object = { name, email, password };
+		const res = await fetch(`${URL}auth/signup`, {
+			method: "POST",
+			body: JSON.stringify(object),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include",
+		});
+		const data = await res.json();
+		return data;
+	} catch (err) {
+		throw new Error("Network Error. PLease Connect to the internet.");
+	}
 }
 
 export const checkAuthStatus = async () => {

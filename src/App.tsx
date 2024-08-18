@@ -7,6 +7,7 @@ import QuizPage from "./features/quiz/QuizPage";
 import CreateQuiz from "./features/quiz/CreateQuiz";
 import loginAction from "./features/authentication/LoginAction";
 import AuthProvider from "./features/authentication/AuthContext";
+import signupAction from "./features/authentication/SignupAction";
 
 const router = createBrowserRouter([
 	{
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
 	{
 		path: "/signup",
 		element: <Signup />,
+		action: signupAction,
 	},
 	{
 		path: "/testing",

@@ -6,10 +6,11 @@ import { useAuth } from "../authentication/AuthContext";
 function QuizPage() {
 	useIsLoggedIn();
 	const { isAuthenticated, isLoading } = useAuth();
+	console.log(isAuthenticated, isLoading);
 	if (isLoading) return <h1>LOADING</h1>;
 	if (!isAuthenticated && !isLoading) return <div>Errorrr</div>;
 	return (
-		<div className="w-11/12 mx-auto flex gap-5">
+		<div className="h-screen mx-auto flex gap-5 bg-primary px-5">
 			<QuizSidebar />
 			<Outlet />
 		</div>

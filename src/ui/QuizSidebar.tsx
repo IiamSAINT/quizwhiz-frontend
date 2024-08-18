@@ -1,39 +1,64 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { MdPersonOutline, MdOutlineArticle } from "react-icons/md";
 import { useAuth } from "../features/authentication/AuthContext";
 
 export default function QuizSidebar() {
 	const { user } = useAuth();
 
 	return (
-		<aside className="w-2/12 bg-blue-600 pb-10">
-			<div className="text-center font-cabin bg-blue-600 py-5 rounded-b-2xl">
-				<img
-					src="src\assets\images\hero-test.jpg"
-					alt=""
-					className="w-24 h-24 rounded-full object-cover object-center mx-auto mb-5"
-				/>
-				<h1 className="text-2xl font-bold username">Name {user.name}</h1>
-				<p>Email {user.email}</p>
+		<aside className="w-2/12 pb-10 border-r-2 py-8 px-5">
+			<div className="flex gap-4 items-center justify-left">
+				<div className="w-[40px] bg-white h-[40px] rounded-full flex items-center justify-center text-[25px] text-slate-700">
+					<MdPersonOutline fontSize="inherit" />
+				</div>
+				<div className="text-sm">
+					<p>{user?.name}</p>
+					<Link to="/">View Profile</Link>
+				</div>
 			</div>
-			<ul className="sidebar mt-5">
-				<NavLink
-					to="/app"
-					className="block py-3 ps-4 rounded-s-full ms-4 active:bg-slate-600"
-				>
-					Home
-				</NavLink>
-				<NavLink
-					to="/app/create"
-					className="block py-3 ps-4 rounded-s-full ms-4"
-				>
-					Create Quiz
-				</NavLink>
-				<NavLink to="/" className="block py-3 ps-4 rounded-s-full ms-4">
-					Home
-				</NavLink>
-				<NavLink to="/" className="block py-3 ps-4 rounded-s-full ms-4">
-					Home
-				</NavLink>
+
+			<ul className="mt-10 flex flex-col gap-7">
+				<li>
+					<NavLink
+						className="px-3 py-2 flex items-center  rounded-md hover:bg-blue-200 transition-colors duration-200 focus:outline-none focus:ring-4 ring-blue-200 gap-3 text-lg"
+						to="/"
+					>
+						<MdOutlineArticle />
+						<span>Dashboard</span>
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						className="px-3 py-2 flex items-center rounded-md hover:bg-blue-200 transition-colors duration-200 focus:outline-none focus:ring-4 ring-blue-200 gap-3 text-lg"
+						to="/quizz"
+					>
+						My Quizzes
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						className="px-3 py-2 flex items-center rounded-md hover:bg-blue-200 transition-colors duration-200 focus:outline-none focus:ring-4 ring-blue-200 gap-3 text-lg"
+						to="/create"
+					>
+						Create Quiz
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						className="px-3 py-2 flex items-center rounded-md hover:bg-blue-200 transition-colors duration-200 focus:outline-none focus:ring-4 ring-blue-200 gap-3 text-lg"
+						to="/analytics"
+					>
+						Analytics
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						className="px-3 py-2 flex items-center rounded-md hover:bg-blue-200 transition-colors duration-200 focus:outline-none focus:ring-4 ring-blue-200 gap-3 text-lg"
+						to="/settings"
+					>
+						Settings
+					</NavLink>
+				</li>
 			</ul>
 		</aside>
 	);

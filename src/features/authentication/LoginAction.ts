@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActionFunctionArgs, redirect } from "react-router-dom";
 import { validateLogin } from "../../services/Authentication";
 
