@@ -8,52 +8,53 @@ import CreateQuiz from "./features/quiz/CreateQuiz";
 import loginAction from "./features/authentication/LoginAction";
 import AuthProvider from "./features/authentication/AuthContext";
 import signupAction from "./features/authentication/SignupAction";
-
+import createQuizAction from "./features/quiz/createQuizAction";
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Homepage />,
-	},
-	{
-		path: "/login",
-		element: <Login />,
-		action: loginAction,
-	},
-	{
-		path: "/signup",
-		element: <Signup />,
-		action: signupAction,
-	},
-	{
-		path: "/testing",
-		element: <TestingPage />,
-	},
-	{
-		path: "/app",
-		element: <QuizPage />,
-		children: [
-			{
-				path: "",
-				element: <div>Hello Quiz Home</div>,
-			},
-			{
-				path: "create",
-				element: <CreateQuiz />,
-			},
-			{
-				path: "error",
-				element: <Link to="/login">Go to Login</Link>,
-			},
-		],
-	},
+  {
+    path: "/",
+    element: <Homepage />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    action: loginAction,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+    action: signupAction,
+  },
+  {
+    path: "/testing",
+    element: <TestingPage />,
+  },
+  {
+    path: "/app",
+    element: <QuizPage />,
+    children: [
+      {
+        path: "",
+        element: <div>Hello Quiz Home</div>,
+      },
+      {
+        path: "createquiz",
+        element: <CreateQuiz />,
+        action: createQuizAction,
+      },
+      {
+        path: "error",
+        element: <Link to="/login">Go to Login</Link>,
+      },
+    ],
+  },
 ]);
 
 function App() {
-	return (
-		<AuthProvider>
-			<RouterProvider router={router} />;
-		</AuthProvider>
-	);
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;

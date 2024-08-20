@@ -2,56 +2,56 @@
 const URL = "http://localhost:3000/api/v1/";
 
 export async function validateLogin(email: string, password: string) {
-	try {
-		const object = { email, password };
-		console.log(email, password);
+  try {
+    const object = { email, password };
+    console.log(email, password);
 
-		const res = await fetch(`${URL}auth/login`, {
-			method: "POST",
-			body: JSON.stringify(object),
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include",
-		});
-		const data = await res.json();
-		return data;
-	} catch (err) {
-		throw new Error("Network Error. Please Connect to the internet");
-	}
+    const res = await fetch(`${URL}auth/login`, {
+      method: "POST",
+      body: JSON.stringify(object),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw new Error("Network Error. Please Connect to the internet");
+  }
 }
 
 export async function validateSignup(
-	name: string,
-	email: string,
-	password: string
+  name: string,
+  email: string,
+  password: string,
 ) {
-	try {
-		const object = { name, email, password };
-		const res = await fetch(`${URL}auth/signup`, {
-			method: "POST",
-			body: JSON.stringify(object),
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include",
-		});
-		const data = await res.json();
-		return data;
-	} catch (err) {
-		throw new Error("Network Error. PLease Connect to the internet.");
-	}
+  try {
+    const object = { name, email, password };
+    const res = await fetch(`${URL}auth/signup`, {
+      method: "POST",
+      body: JSON.stringify(object),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw new Error("Network Error. Please Connect to the internet.");
+  }
 }
 
 export const checkAuthStatus = async () => {
-	const response = await fetch(`${URL}auth/check`, {
-		method: "GET",
-		credentials: "include",
-	});
+  const response = await fetch(`${URL}auth/check`, {
+    method: "GET",
+    credentials: "include",
+  });
 
-	const data = await response.json();
-	if (data.status === "success") return { user: data.data };
-	if (data.status !== "success") return false;
+  const data = await response.json();
+  if (data.status === "success") return { user: data.data };
+  if (data.status !== "success") return false;
 
-	return response.ok;
+  return response.ok;
 };
