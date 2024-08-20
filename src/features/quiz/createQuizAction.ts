@@ -11,10 +11,9 @@ const action = async (obj: ActionFunctionArgs) => {
     description = description + "";
 
     const data = await createQuiz(title, description);
-    return null;
     if (data.status === "error" || data.status === "fail") return data.message;
 
-    return redirect("/app");
+    return redirect(`/app/createquiz/${data.data.id}`);
   } catch (err: any) {
     return err.message;
   }

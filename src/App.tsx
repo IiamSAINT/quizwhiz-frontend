@@ -42,6 +42,10 @@ const router = createBrowserRouter([
         action: createQuizAction,
       },
       {
+        path: "createquiz/:id",
+        element: <div>Hello</div>,
+      },
+      {
         path: "error",
         element: <Link to="/login">Go to Login</Link>,
       },
