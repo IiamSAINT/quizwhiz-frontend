@@ -9,6 +9,7 @@ import loginAction from "./features/authentication/LoginAction";
 import AuthProvider from "./features/authentication/AuthContext";
 import signupAction from "./features/authentication/SignupAction";
 import createQuizAction from "./features/quiz/createQuizAction";
+import AddQuestions from "./features/quiz/AddQuestions";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: "createquiz/:id",
-        element: <div>Hello</div>,
+        element: <AddQuestions />,
       },
       {
         path: "error",

@@ -10,7 +10,7 @@ function QuizPage() {
   if (isLoading) return <Loader />;
   if (!isAuthenticated && !isLoading) return <div>Errorrr</div>;
   return (
-    <div className="relative mx-auto flex h-screen gap-5 bg-primary px-5">
+    <div className="relative mx-auto flex h-screen gap-5 bg-primary pl-5">
       <QuizSidebar />
       <Outlet />
     </div>
