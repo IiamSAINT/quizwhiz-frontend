@@ -9,6 +9,7 @@ import { produce } from "immer";
 import { FaRegEdit } from "react-icons/fa";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
+import Option from "./Option";
 
 const initialState = [
   { answer: "Paris", isCorrect: true, id: crypto.randomUUID() },
@@ -60,8 +61,7 @@ const reducer = function (state, action) {
     }
   }
 };
-const Question = () => {
-  const [editTitle, setEditTitle] = useState("What is the capital of france");
+const Question = ({ title, handleSetQuestions, id }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -80,70 +80,74 @@ const Question = () => {
   }, [isDisabled]);
   return (
     <div className="question rounded-lg border-2 px-5 py-4">
-      <div className="header flex w-10/12 items-center justify-around text-lg">
+      <div className="header flex w-full items-center justify-between text-lg">
         <input
-          placeholder="What is the captial of france"
-          value={editTitle}
+          placeholder="Input Your Question Here"
+          value={title}
           disabled={isDisabled}
-          onChange={(e) => setEditTitle(e.target.value)}
+          onChange={(e) => {
+            handleSetQuestions((questions) => {
+              const arr = questions.map((question, i) => {
+                if (id === i) {
+                  return e.target.value;
+                } else return question;
+              });
+              return arr;
+            });
+          }}
           className="w-11/12 bg-transparent px-2 ring-border focus:outline-none focus:ring-2"
           ref={inputRef}
         />
         <button className="text-xl" onClick={toggleDisabled}>
           {isDisabled ? <FaRegEdit /> : <IoMdCheckmarkCircleOutline />}
         </button>
+
+        <button
+          className="text-2xl"
+          onClick={(e) => {
+            e.preventDefault();
+            handleSetQuestions((questions) => {
+              return questions.filter((question, i) => i !== id);
+            });
+          }}
+        >
+          <MdDeleteOutline />
+        </button>
       </div>
 
       <div className="options mt-8 flex flex-col gap-5">
         {state.map((option) => (
-          <div
-            className="flex items-center justify-start gap-x-2"
-            key={option.id}
-          >
-            <input
-              type="checkbox"
-              name="option1"
-              className="block rounded"
-              checked={option.isCorrect}
-              onChange={() => {
-                dispatch({
-                  type: "option/toggleCorrect",
-                  payload: { id: option.id },
-                });
-              }}
-            />
-            <input
-              type="text"
-              className="w-10/12 rounded-2xl border-2 border-border bg-transparent px-3 py-2 focus:outline-none"
-              defaultValue={option.answer}
-              onChange={(e) => {
-                dispatch({
-                  type: "option/edit",
-                  payload: { id: option.id, answer: e.target.value },
-                });
-              }}
-            />
-            <button
-              className="text-2xl"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch({ type: "option/delete", payload: { id: option.id } });
-              }}
-            >
-              <MdDeleteOutline />
-            </button>
-          </div>
+          <Option option={option} dispatch={dispatch} key={option.id} />
         ))}
 
         <div className="px-5">
           <button
-            className="mx-auto w-1/2 rounded-xl border-2 border-border bg-transparent py-1"
+            className="mx-auto w-full rounded-xl border-2 border-border bg-transparent py-2"
             onClick={(e) => {
               e.preventDefault();
               dispatch({ type: "option/add" });
             }}
           >
-            +
+            Add Answer
+          </button>
+        </div>
+
+        <div className="px-5">
+          <button
+            className="mx-auto w-full rounded-xl border-2 border-border bg-transparent py-2"
+            onClick={(e) => {
+              e.preventDefault();
+              const question = title;
+              const answers = state.map((option) => {
+                return {
+                  answer: option.answer,
+                  isCorrect: option.isCorrect,
+                };
+              });
+              console.log({ question, answers });
+            }}
+          >
+            Save Question
           </button>
         </div>
       </div>
