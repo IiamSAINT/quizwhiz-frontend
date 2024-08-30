@@ -14,10 +14,14 @@ export async function validateLogin(email: string, password: string) {
       },
       credentials: "include",
     });
+
+    if (!res.ok) throw new Error("An Error occured while singing you in.");
     const data = await res.json();
     return data;
   } catch (err) {
-    throw new Error("Network Error. Please Connect to the internet");
+    throw new Error(
+      `${err || "Network Error. Please Connect to the internet"}`,
+    );
   }
 }
 

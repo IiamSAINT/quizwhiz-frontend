@@ -10,6 +10,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import Option from "./Option";
+import { addQuestion } from "../../services/QuizService";
+import { useParams } from "react-router-dom";
 
 const initialState = [
   { answer: "Paris", isCorrect: true, id: crypto.randomUUID() },
@@ -61,23 +63,47 @@ const reducer = function (state, action) {
     }
   }
 };
-const Question = ({ title, handleSetQuestions, id }) => {
-  const [isDisabled, setIsDisabled] = useState(true);
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+const Question = ({ title, handleSetQuestions, id }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const toggleDisabled: MouseEventHandler = function (e) {
-    e.preventDefault();
-    setIsDisabled((disabled: boolean) => !disabled);
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const { id: quizId } = useParams();
 
   useEffect(() => {
     if (!isDisabled) {
       inputRef.current?.focus();
     }
   }, [isDisabled]);
+
+  const toggleDisabled: MouseEventHandler = function (e) {
+    e.preventDefault();
+    setIsDisabled((disabled: boolean) => !disabled);
+  };
+
+  const handleSubmitQuestion = async function (e) {
+    e.preventDefault();
+    const question = title;
+    const answers = state.map((option) => {
+      return {
+        answer: option.answer,
+        isCorrect: option.isCorrect,
+      };
+    });
+    const body = { question, answers };
+
+    try {
+      setIsLoading(true);
+      const data = await addQuestion(id, body);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="question rounded-lg border-2 px-5 py-4">
       <div className="header flex w-full items-center justify-between text-lg">
@@ -135,17 +161,7 @@ const Question = ({ title, handleSetQuestions, id }) => {
         <div className="px-5">
           <button
             className="mx-auto w-full rounded-xl border-2 border-border bg-transparent py-2"
-            onClick={(e) => {
-              e.preventDefault();
-              const question = title;
-              const answers = state.map((option) => {
-                return {
-                  answer: option.answer,
-                  isCorrect: option.isCorrect,
-                };
-              });
-              console.log({ question, answers });
-            }}
+            onClick={handleSubmitQuestion}
           >
             Save Question
           </button>

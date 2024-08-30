@@ -26,13 +26,37 @@ export async function createQuiz(title: string, description: string) {
       },
       credentials: "include",
     });
+
+    if (!res.ok) throw new Error("Failed To Fetch");
+
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+}
+
+export async function addQuestion(id: string, body) {
+  try {
+    const res = await fetch(`${URL}quiz/${id}/question`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      credentials: "include",
+    });
+
     console.log(res);
+    if (!res.ok) throw new Error("Failed To Fetch");
 
     const data = await res.json();
     console.log(data);
 
     return data;
-  } catch (err) {
-    throw new Error("Network Error. Please Connect to the internet.");
+  } catch (err: any) {
+    console.log(err);
+    throw new Error(err);
   }
 }
