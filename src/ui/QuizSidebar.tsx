@@ -1,40 +1,108 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import {
+  MdPersonOutline,
+  MdOutlineArticle,
+  MdLibraryBooks,
+  MdAdd,
+  MdBarChart,
+  MdSettings,
+  MdLogout,
+} from "react-icons/md";
 import { useAuth } from "../features/authentication/AuthContext";
 
-export default function QuizSidebar() {
-	const { user } = useAuth();
+const NavLinkStyle =
+  "flex items-center gap-3 rounded-md px-3 py-2 text-lg ring-blue-200 transition-colors duration-200 hover:bg-blue-200 focus:outline-none focus:ring-4";
 
-	return (
-		<aside className="w-2/12 bg-blue-600 pb-10">
-			<div className="text-center font-cabin bg-blue-600 py-5 rounded-b-2xl">
-				<img
-					src="src\assets\images\hero-test.jpg"
-					alt=""
-					className="w-24 h-24 rounded-full object-cover object-center mx-auto mb-5"
-				/>
-				<h1 className="text-2xl font-bold">Name {user.name}</h1>
-				<p>Email {user.email}</p>
-			</div>
-			<ul className="sidebar mt-5">
-				<NavLink
-					to="/app"
-					className="block py-3 ps-4 rounded-s-full ms-4 active:bg-slate-600"
-				>
-					Home
-				</NavLink>
-				<NavLink
-					to="/app/create"
-					className="block py-3 ps-4 rounded-s-full ms-4"
-				>
-					Create Quiz
-				</NavLink>
-				<NavLink to="/" className="block py-3 ps-4 rounded-s-full ms-4">
-					Home
-				</NavLink>
-				<NavLink to="/" className="block py-3 ps-4 rounded-s-full ms-4">
-					Home
-				</NavLink>
-			</ul>
-		</aside>
-	);
+const NavLinkActiveStyle = " bg-blue-200";
+
+export default function QuizSidebar() {
+  const { user } = useAuth();
+
+  return (
+    <aside className="flex w-2/12 flex-col border-r-2 px-5 py-8 pb-10">
+      <div className="justify-left flex items-center gap-4">
+        <div className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-white text-[25px] text-slate-700">
+          <MdPersonOutline fontSize="inherit" />
+        </div>
+        <div className="text-sm">
+          <p>{user?.name}</p>
+          <Link to="/">View Profile</Link>
+        </div>
+      </div>
+      <ul className="mt-10 flex flex-col gap-7">
+        <li>
+          <NavLink
+            className={({ isActive }) => {
+              return isActive
+                ? NavLinkStyle + NavLinkActiveStyle
+                : NavLinkStyle;
+            }}
+            to="/app/dashboard"
+          >
+            <MdOutlineArticle />
+            <span>Dashboard</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) => {
+              return isActive
+                ? NavLinkStyle + NavLinkActiveStyle
+                : NavLinkStyle;
+            }}
+            to="quizz"
+          >
+            <MdLibraryBooks />
+            <span>My Quizzes</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) => {
+              return isActive
+                ? NavLinkStyle + NavLinkActiveStyle
+                : NavLinkStyle;
+            }}
+            to="createquiz"
+          >
+            <MdAdd />
+            <span>Create Quiz</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) => {
+              return isActive
+                ? NavLinkStyle + NavLinkActiveStyle
+                : NavLinkStyle;
+            }}
+            to="analytics"
+          >
+            <MdBarChart />
+            <span>Analytics</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) => {
+              return isActive
+                ? NavLinkStyle + NavLinkActiveStyle
+                : NavLinkStyle;
+            }}
+            to="settings"
+          >
+            <MdSettings />
+            <span>Settings</span>
+          </NavLink>
+        </li>
+      </ul>
+
+      <div className="mt-auto">
+        <button className="flex items-center justify-center gap-3 rounded-md px-3 py-2 text-lg transition-colors duration-200 hover:bg-blue-200 focus:outline-none focus:ring-4">
+          <MdLogout />
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+  );
 }

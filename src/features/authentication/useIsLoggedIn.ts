@@ -3,24 +3,30 @@ import { checkAuthStatus } from "../../services/Authentication";
 import { useAuth } from "./AuthContext";
 
 const useIsLoggedIn = function () {
-	const { isAuthenticated, dispatch } = useAuth();
+  const { dispatch } = useAuth();
 
-	const checkIsLoggedIn = useCallback(async () => {
-		dispatch({ type: "auth/loading" });
-		const user = await checkAuthStatus();
-		if (!user) return;
-		dispatch({
-			type: "auth/login",
-			payload: typeof user === "boolean" ? {} : user.user,
-		});
-	}, [dispatch]);
+  const checkIsLoggedIn = useCallback(async () => {
+    try {
+      dispatch({ type: "auth/loading" });
+      const user = await checkAuthStatus();
+      if (!user) return;
+      dispatch({
+        type: "auth/login",
+        payload: typeof user === "boolean" ? {} : user.user,
+      });
+    } catch (err) {
+      dispatch({
+        type: "auth/error",
+      });
+    }
+  }, [dispatch]);
 
-	useEffect(() => {
-		// if (isAuthenticated) return;
-		checkIsLoggedIn();
-	}, [isAuthenticated, checkIsLoggedIn, dispatch]);
+  useEffect(() => {
+    // if (isAuthenticated) return;
+    checkIsLoggedIn();
+  }, [checkIsLoggedIn, dispatch]);
 
-	return null;
+  return null;
 };
 
 export default useIsLoggedIn;

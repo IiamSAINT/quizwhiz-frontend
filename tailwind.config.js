@@ -7,6 +7,8 @@ export default {
         myblue: "#2563eb",
         textColor: "#4B5563",
         grad: "linear-gradient(to right, rgba(37, 99, 235, 0.8), rgba(255,255,255, 1))",
+        primary: "#f0f7ff",
+        border: "rgb(98, 143, 188)",
       },
       fontFamily: {
         oxygen: ["Oxygen", "sans-serif"],
