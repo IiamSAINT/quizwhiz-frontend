@@ -10,6 +10,7 @@ import AuthProvider from "./features/authentication/AuthContext";
 import signupAction from "./features/authentication/SignupAction";
 import createQuizAction from "./features/quiz/createQuizAction";
 import AddQuestions from "./features/quiz/AddQuestions";
+import MainAppLayout from "./pages/MainAppLayout";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,25 +32,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <QuizPage />,
+    element: <MainAppLayout />,
     children: [
-      {
-        path: "",
-        element: <div>Hello Quiz Home</div>,
-      },
-      {
-        path: "createquiz",
-        element: <CreateQuiz />,
-        action: createQuizAction,
-      },
-      {
-        path: "createquiz/:id",
-        element: <AddQuestions />,
-      },
-      {
-        path: "error",
-        element: <Link to="/login">Go to Login</Link>,
-      },
+      { path: "", element: <div>Hello Home</div> },
+      { path: "my_quiz", element: <QuizPage /> },
     ],
   },
 ]);
