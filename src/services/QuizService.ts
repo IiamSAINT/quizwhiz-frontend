@@ -1,5 +1,4 @@
-// const URL = "https://quizwhiz-backend.onrender.com/api/v1/";
-const URL = "http://localhost:3000/api/v1/";
+import { URL } from "../variables";
 
 export async function createLoby(quizId: string, token: string) {
   const res = await fetch(`${URL}quiz/${quizId}`, {

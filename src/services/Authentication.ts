@@ -1,10 +1,8 @@
-// const URL = "https://quizwhiz-backend.onrender.com/api/v1/";
-const URL = "http://localhost:3000/api/v1/";
+import { URL } from "../variables";
 
 export async function validateLogin(email: string, password: string) {
   try {
     const object = { email, password };
-    console.log(email, password);
 
     const res = await fetch(`${URL}auth/login`, {
       method: "POST",
