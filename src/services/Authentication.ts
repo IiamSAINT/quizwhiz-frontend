@@ -1,4 +1,5 @@
-import { URL } from "../variables";
+
+import { URL } from "../variables"
 
 export async function validateLogin(email: string, password: string) {
   try {
