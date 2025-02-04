@@ -10,7 +10,7 @@ function Login() {
     <div className="flex">
       <div className="flex h-screen w-1/2 items-center justify-center bg-gray-100">
         <div className="w-[70%] lg:w-[50%]">
-          <h1 className="mb-10 text-center font-cabinSketch text-6xl font-semibold">
+          <h1 className="font-cabinSketch mb-10 text-center text-6xl font-semibold">
             Welcome Back
           </h1>
           <Form method="POST" className="font-oxygen" action="/login">
@@ -40,13 +40,26 @@ function Login() {
               />
             </div>
             <p>{errMessage ? errMessage + "" : ""}</p>
-            <div>
+            <div className="flex flex-col gap-3">
               <button
                 type="submit"
                 className="block w-full rounded bg-blue-600 py-2 text-white disabled:cursor-wait disabled:bg-blue-300"
                 disabled={loading}
               >
                 {loading ? "Loading" : "Login"}
+              </button>
+              <div className="flex items-center gap-3">
+                <div className="flex-1 border-t-2 border-black"></div>
+                <span>or</span>
+                <div className="flex-1 border-t-2 border-black"></div>
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center gap-3 w-full rounded bg-blue-600 py-2 text-white disabled:cursor-wait disabled:bg-blue-300"
+                disabled={loading}
+              >
+                <img src="src\assets\images\google.png" alt="Google's logo" className="w-5"  />{" "}
+                <span>Login with Google</span>
               </button>
             </div>
           </Form>
