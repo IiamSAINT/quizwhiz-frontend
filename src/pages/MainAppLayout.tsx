@@ -6,7 +6,7 @@ const MainAppLayout = function () {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <div className="w-full">
+      <div className="relative w-full">
         <SidebarTrigger />
         <main className="w-full px-16">
           <Outlet />
