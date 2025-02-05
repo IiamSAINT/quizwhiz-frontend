@@ -40,9 +40,12 @@ const QuizPage = () => {
           No Quizzes Found! Create your first quiz to get started
           </p> */}
           <div className="grid grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
-            {"jfjfjfj".split("").map(() => {
+            {"jfjfjfj".split("").map((_, i) => {
               return (
-                <div className="group relative rounded-lg bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg">
+                <div
+                  key={i}
+                  className="group relative rounded-lg bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg"
+                >
                   <div className="mb-4 flex items-start justify-between">
                     <div>
                       <h3 className="mb-1 text-lg font-semibold text-gray-800">
@@ -61,9 +64,9 @@ const QuizPage = () => {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           className="lucide lucide-more-vertical h-5 w-5 text-gray-500"
                         >
                           <circle cx="12" cy="12" r="1"></circle>

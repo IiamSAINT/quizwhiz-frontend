@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const defaultTags = [
   "Tech",
   "Science",
@@ -8,11 +8,23 @@ const defaultTags = [
   "Javascript",
   "English",
 ];
-const Category = () => {
+
+import { FieldValues, UseFormSetValue } from "react-hook-form";
+
+type CategoryPropType = {
+  setValue: UseFormSetValue<FieldValues>;
+};
+
+const Category = ({ setValue }: CategoryPropType) => {
   const [tagValue, setTagValue] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [displaySuggestion, setDisplaySuggestion] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Keeping track of the tags with react hook form
+  useEffect(() => {
+    setValue("tags", tags);
+  }, [tags, setValue]);
 
   return (
     <div className="relative flex flex-col gap-2">
@@ -30,9 +42,9 @@ const Category = () => {
                   str.toLowerCase().includes(tagValue.toLowerCase()) &&
                   str.toLowerCase() !== tagValue.toLowerCase(),
               )
-              .map((tag) => (
+              .map((tag, i) => (
                 <button
-                  key={tag}
+                  key={i}
                   className="block w-full cursor-pointer px-5 py-3 text-left hover:bg-slate-200"
                   onClick={() => {
                     setTagValue(tag);
@@ -70,8 +82,11 @@ const Category = () => {
         />
       </div>
       <div className="flex w-full flex-wrap gap-3">
-        {tags.map((tag) => (
-          <div className="text-grey-800 relative me-2 flex rounded-md bg-gray-100 p-4 text-sm font-medium dark:text-blue-300">
+        {tags.map((tag, i) => (
+          <div
+            key={i}
+            className="text-grey-800 relative me-2 flex rounded-md bg-gray-100 p-4 text-sm font-medium dark:text-blue-300"
+          >
             {tag}
             <X
               size="1rem"
