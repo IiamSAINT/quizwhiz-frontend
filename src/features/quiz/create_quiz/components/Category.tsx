@@ -9,10 +9,11 @@ const defaultTags = [
   "English",
 ];
 
-import { FieldValues, UseFormSetValue } from "react-hook-form";
+import { UseFormSetValue } from "react-hook-form";
+import { FormValues } from "@/features/quiz/create_quiz/types";
 
 type CategoryPropType = {
-  setValue: UseFormSetValue<FieldValues>;
+  setValue: UseFormSetValue<FormValues>;
 };
 
 const Category = ({ setValue }: CategoryPropType) => {
