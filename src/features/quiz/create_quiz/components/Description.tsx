@@ -1,7 +1,8 @@
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
+import { FormValues } from "@/features/quiz/create_quiz/types";
 
 type DescriptionPropType = {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FormValues>;
 };
 
 const Description = ({ register }: DescriptionPropType) => {
