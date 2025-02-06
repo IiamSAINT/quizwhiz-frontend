@@ -3,6 +3,7 @@ import CreateQuizHeader from "@/features/quiz/create_quiz/components/CreateQuizH
 import QuizDetailsForm from "@/features/quiz/create_quiz/components/QuizDetailsForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "@/features/quiz/create_quiz/types";
+
 const CreateQuiz = () => {
   const {
     register,
