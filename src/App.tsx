@@ -4,10 +4,12 @@ import Signup from "./features/authentication/Signup";
 import Homepage from "./ui/Homepage";
 import TestingPage from "./pages/TestingPage";
 import QuizPage from "./features/quiz/QuizPage";
+import Analytics from "./features/quiz/Analytics";
 import loginAction from "./features/authentication/LoginAction";
 import AuthProvider from "./features/authentication/AuthContext";
 import signupAction from "./features/authentication/SignupAction";
 import MainAppLayout from "./pages/MainAppLayout";
+import Settings from "./pages/Settings";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,6 +35,8 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <div>Hello Home</div> },
       { path: "my_quiz", element: <QuizPage /> },
+      { path: "analytics", element: <Analytics /> },
+      { path: "settings", element: <Settings /> },
     ],
   },
 ]);
