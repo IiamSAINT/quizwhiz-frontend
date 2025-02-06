@@ -78,6 +78,13 @@ function Navbar() {
         </div>
       </div>
 
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
       {/* Mobile Menu (Slide from Right) */}
       <div
         className={`fixed inset-y-0 right-0 w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out ${
@@ -103,14 +110,6 @@ function Navbar() {
           </Button>
         </div>
       </div>
-
-      {/* Overlay (closes menu when clicked outside) */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-30"
-          onClick={() => setIsOpen(false)}
-        ></div>
-      )}
     </header>
   );
 }
