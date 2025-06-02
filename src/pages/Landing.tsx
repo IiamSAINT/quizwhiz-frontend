@@ -7,7 +7,7 @@ const Landing = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-quiz-primary to-quiz-secondary overflow-hidden">
+      <section className="relative py-40 bg-gradient-to-br from-quiz-primary to-quiz-secondary overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMzYgMzRjMC0yLjIgMS44LTQgNC00czQgMS44IDQgNC0xLjggNC00IDQtNC0xLjgtNC00eiIvPjwvZz48L2c+PC9zdmc+')] bg-repeat" />
         </div>
@@ -31,7 +31,7 @@ const Landing = () => {
             </div>
           </div>
         </div>
-        <div className="hidden md:block absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-4xl">
+        <div className="hidden md:block absolute bottom-10 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-4xl">
           <div className="bg-white rounded-xl shadow-xl p-6 animate-scale-in">
             <div className="grid grid-cols-3 gap-6 text-center">
               <div>
