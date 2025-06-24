@@ -15,28 +15,31 @@ import Profile from "./pages/Profile";
 import Quiz from "./pages/Quiz";
 import QuizFeed from "./pages/QuizFeed";
 import NotFound from "./pages/NotFound";
+import { AuthProvider } from "./context/Auth";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout><Landing /></Layout>} />
-          <Route path="/signup" element={<Layout><SignUp /></Layout>} />
-          <Route path="/login" element={<Layout><Login /></Layout>} />
-          <Route path="/lobby" element={<Layout><Lobby /></Layout>} />
-          <Route path="/profile" element={<Layout><Profile /></Layout>} />
-          <Route path="/quiz" element={<Layout><Quiz /></Layout>} />
-          <Route path="/feed" element={<Layout><QuizFeed /></Layout>} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout><Landing /></Layout>} />
+            <Route path="/signup" element={<Layout><SignUp /></Layout>} />
+            <Route path="/login" element={<Layout><Login /></Layout>} />
+            <Route path="/lobby" element={<Layout><Lobby /></Layout>} />
+            <Route path="/profile" element={<Layout><Profile /></Layout>} />
+            <Route path="/quiz" element={<Layout><Quiz /></Layout>} />
+            <Route path="/feed" element={<Layout><QuizFeed /></Layout>} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </AuthProvider>
 );
 
 export default App;
