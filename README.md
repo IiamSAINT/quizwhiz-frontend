@@ -69,18 +69,35 @@ In the project directory, you can run:
 The project follows a standard React application structure:
 
 ```
-/src
-├── /components   # Reusable UI components
-│   ├── /icons
-│   ├── /layout   # Layout components (Navbar, Footer)
-│   └── /ui       # shadcn/ui components
-├── /context      # React context providers
-├── /hooks        # Custom React hooks
-├── /lib          # Utility functions
-├── /pages        # Application pages/routes
-├── /services     # API service functions
-├── App.tsx       # Main App component with routing
-└── main.tsx      # Application entry point
+.
+├── public/             # Static assets
+├── src/
+│   ├── app/            # Application-level components and routing
+│   ├── common/         # Shared components, utilities, and API configs
+│   │   ├── api/        # API related files
+│   │   ├── components/ # Reusable UI components
+│   │   │   ├── icons/
+│   │   │   ├── layout/
+│   │   │   └── ui/
+│   │   └── types/      # TypeScript type definitions
+│   ├── features/       # Feature-specific code (auth, dashboard, etc.)
+│   │   └── <feature-name>/
+│   │       ├── components/
+│   │       └── hooks/
+│   ├── hooks/          # Custom React hooks
+│   ├── lib/            # Utility functions
+│   ├── pages/          # Application pages/routes
+│   ├── App.css
+│   ├── index.css
+│   └── main.tsx        # Application entry point
+├── .eslintrc.js        # ESLint configuration
+├── .gitignore
+├── index.html
+├── package.json
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 ## 🤝 Contributing
