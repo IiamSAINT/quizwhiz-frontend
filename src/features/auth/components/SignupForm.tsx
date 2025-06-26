@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/features/auth/useAuth";
 
-import { signUpWithEmail, verifyEmail } from "@/services/auth";
+import { signUpWithEmail, verifyEmail } from "@/features/auth/api";
 
 // todo  validate form (confirm password, password length etc, use red borders, ), loading states and navigate on successfull
 
