@@ -12,8 +12,16 @@ import { signUpWithEmail, verifyEmail } from "../api";
 // todo  validate form (confirm password, password length etc, use red borders, ), loading states and navigate on successfull
 
 const SignupForm = () => {
-  const { register, reset, handleSubmit } = useForm();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const { accessToken, setAccessToken } = useAuth();
+
+  const password = watch("password");
 
   const mutation = useMutation({
     mutationFn: signUpWithEmail,
@@ -30,7 +38,6 @@ const SignupForm = () => {
     mutation.mutate(data);
   };
 
-  console.log(accessToken);
   return (
     <div className="p-8 md:p-12 lg:p-16">
       <div className="mb-8">
@@ -97,11 +104,20 @@ const SignupForm = () => {
             id="password"
             type="password"
             placeholder="Create a password"
-            className="h-12"
+            className={`h-12 ${errors.password ? "border border-red-500" : ""}`}
             {...register("password", {
               required: "This field is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
             })}
           />
+          {errors.password && (
+            <p className="text-sm text-red-500">
+              {String(errors.password.message)}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -110,11 +126,20 @@ const SignupForm = () => {
             id="confirm-password"
             type="password"
             placeholder="Confirm your password"
-            className="h-12"
-            {...register("confirm password", {
+            className={`h-12 ${
+              errors.confirmPassword ? "border border-red-500" : ""
+            }`}
+            {...register("confirmPassword", {
               required: "This field is required",
+              validate: (value) =>
+                value === password || "Passwords do not match",
             })}
           />
+          {errors.confirmPassword && (
+            <p className="text-sm text-red-500">
+              {String(errors.confirmPassword.message)}
+            </p>
+          )}
         </div>
 
         <Button className="w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90 text-white">
