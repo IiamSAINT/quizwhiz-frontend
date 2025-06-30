@@ -111,6 +111,9 @@ const SignupForm = () => {
             type="password"
             placeholder="Confirm your password"
             className="h-12"
+            {...register("confirm password", {
+              required: "This field is required",
+            })}
           />
         </div>
 
