@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/features/auth/useAuth";
 
-import { signUpWithEmail, verifyEmail } from "../api";
+import { signUpWithEmail } from "../api";
 
 // todo  validate form (confirm password, password length etc, use red borders, ), loading states and navigate on successfull
 
@@ -157,11 +157,15 @@ const SignupForm = () => {
           >
             Log in
           </Link>
+          <Link
+            to="/auth/verify-email"
+            className="text-quiz-primary hover:underline font-medium"
+          >
+            Verify Email
+          </Link>
         </p>
       </div>
-      <p onClick={() => verifyEmail("985a99", mutation.data.accessToken)}>
-        Verify email
-      </p>
+
     </div>
   );
 };
