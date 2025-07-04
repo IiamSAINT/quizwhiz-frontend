@@ -23,8 +23,10 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/common/components/ui/input-otp";
-import { verifyEmail } from "@/features/auth/api";
+import { verifyEmail, resendEmailVerificationCode } from "@/features/auth/api";
 import { useAuth } from "@/features/auth/useAuth";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -34,6 +36,7 @@ const FormSchema = z.object({
 
 function VerifyEmail() {
   const { accessToken } = useAuth();
+  const [remainingTime, setRemainingTime] = useState(30);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -44,6 +47,23 @@ function VerifyEmail() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     verifyEmail(data.pin, accessToken);
+  }
+
+  useEffect(() => {
+    if (remainingTime <= 0) return;
+
+    const timerId = setTimeout(() => {
+      setRemainingTime((time) => time - 1);
+    }, 1000);
+
+    return () => clearTimeout(timerId);
+  }, [remainingTime]);
+
+  console.log(remainingTime);
+
+  function resendCode() {
+    resendEmailVerificationCode(accessToken);
+    setRemainingTime(30);
   }
 
   return (
@@ -89,6 +109,9 @@ function VerifyEmail() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      <button onClick={resendCode} disabled={Boolean(remainingTime)}>
+        {remainingTime > 0 ? `Resend code in ${remainingTime}` : "Resend code"}
+      </button>
     </div>
   );
 }

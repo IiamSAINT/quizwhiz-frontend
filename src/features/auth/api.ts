@@ -36,3 +36,17 @@ export async function loginWithEmail(userDetails: object) {
     console.error(err);
   }
 }
+
+export async function resendEmailVerificationCode(token: string) {
+  try {
+    const data = await axiosInstance.get(`auth/resend-verification`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+}
