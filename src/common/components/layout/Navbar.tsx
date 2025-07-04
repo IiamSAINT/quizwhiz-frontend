@@ -25,14 +25,16 @@ const Navbar = () => {
 						Profile
 					</Link>
 					<div className="flex space-x-3">
-						<Link to="/signup">
+						<Link to="auth/signup">
 							<Button variant="outline" className="rounded-full">
 								Sign Up
 							</Button>
 						</Link>
-						<Button className="rounded-full bg-quiz-primary hover:bg-quiz-secondary">
-							Login
-						</Button>
+						<Link to="auth/login">
+							<Button className="rounded-full bg-quiz-primary hover:bg-quiz-secondary">
+								Login
+							</Button>
+						</Link>
 					</div>
 				</div>
 
