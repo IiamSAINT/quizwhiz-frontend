@@ -8,7 +8,7 @@ import {
   Trophy,
   Users,
 } from "lucide-react";
-import QuizHero from "./QuizHero";
+import QuizHero from "../common/components/landing/QuizHero";
 import QuizHeroV2 from "./QuizHeroV2";
 
 const Landing = () => {
