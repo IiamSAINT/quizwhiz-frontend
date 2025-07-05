@@ -1,8 +1,8 @@
-import axiosInstance from "@/common/api/axiosInstance";
+import axiosInstance from '@/common/api/axiosInstance';
 
 export async function signUpWithEmail(userDetails: object) {
   try {
-    const { data } = await axiosInstance.post("auth/signup", userDetails);
+    const { data } = await axiosInstance.post('auth/signup', userDetails);
     console.log(data);
     return data;
   } catch (err) {
@@ -12,14 +12,11 @@ export async function signUpWithEmail(userDetails: object) {
 
 export async function verifyEmail(verificationCode: string, token: string) {
   try {
-    const data = await axiosInstance.get(
-      `auth/verify_email?code=${verificationCode}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const data = await axiosInstance.get(`auth/verify_email?code=${verificationCode}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     console.log(data);
     return data;
   } catch (err) {
