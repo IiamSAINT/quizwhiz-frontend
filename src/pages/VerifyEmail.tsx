@@ -61,6 +61,7 @@ function VerifyEmail() {
 
   console.log(remainingTime);
 
+  // todo handle errors for wrong invalid codes here and navigate
   function resendCode() {
     resendEmailVerificationCode(accessToken);
     setRemainingTime(30);
