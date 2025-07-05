@@ -2,14 +2,15 @@ import { Button } from '@/common/components/ui/button';
 import { Input } from '@/common/components/ui/input';
 import { Label } from '@/common/components/ui/label';
 import { Link, useNavigate } from 'react-router-dom';
-import { Github } from 'lucide-react';
+import { Github, Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '@/features/auth/useAuth';
+import { toast } from 'sonner';
 
 import { signUpWithEmail } from '../api';
-
-// todo  validate form (confirm password, password length etc, use red borders, ), loading states and navigate on successfull
+import { LoginResponse, SignUpWithEmailParams } from '../types';
+import { AxiosError } from 'axios';
 
 const SignupForm = () => {
   const {
@@ -19,25 +20,48 @@ const SignupForm = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const { accessToken, setAccessToken } = useAuth();
+
+  const { setAccessToken } = useAuth();
   const navigate = useNavigate();
   const password = watch('password');
 
   const mutation = useMutation({
     mutationFn: signUpWithEmail,
-    onSuccess: (data) => {
-      console.log('Success:', data);
+    onSuccess: (data: LoginResponse) => {
       if (data.accessToken) {
         setAccessToken(data.accessToken);
+        toast.success('Account created successfully!');
         navigate('/auth/verify-email');
       }
       reset();
     },
+    onError: onError,
   });
 
-  const onSubmit = (data) => {
+  const isLoading = mutation.isPending;
+
+  const onSubmit = (data: SignUpWithEmailParams) => {
     mutation.mutate(data);
   };
+
+  function onError(err: AxiosError) {
+    console.log(err.response);
+    if (
+      err.response &&
+      err.response.data &&
+      typeof err.response.data === 'object' &&
+      'message' in err.response.data
+    ) {
+      toast.error((err.response.data as { message: string }).message);
+      return;
+    }
+
+    if (err.request) {
+      toast.error("We couldn't reach the server. Please check your connection and try again.");
+      return;
+    }
+    toast.error('Something went wrong please try again later');
+  }
 
   return (
     <div className='p-8 md:p-12 lg:p-16'>
@@ -48,18 +72,17 @@ const SignupForm = () => {
         </p>
       </div>
 
-      {/* Github Sign-in Button */}
       <div className='mb-8'>
         <Button
           variant='outline'
           className='w-full flex items-center justify-center gap-2 h-12 border-gray-300 hover:bg-gray-50'
+          disabled={isLoading}
         >
           <Github className='h-5 w-5 text-gray-700' />
           <span>Continue with Github</span>
         </Button>
       </div>
 
-      {/* Divider */}
       <div className='relative mb-8'>
         <div className='absolute inset-0 flex items-center'>
           <div className='w-full border-t border-gray-200'></div>
@@ -69,7 +92,6 @@ const SignupForm = () => {
         </div>
       </div>
 
-      {/* Form */}
       <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
         <div className='space-y-2'>
           <Label htmlFor='name'>Full Name</Label>
@@ -77,6 +99,7 @@ const SignupForm = () => {
             id='name'
             placeholder='Enter your full name'
             className='h-12'
+            disabled={isLoading}
             {...register('name', {
               required: 'This field is required',
             })}
@@ -90,6 +113,7 @@ const SignupForm = () => {
             type='email'
             placeholder='Enter your email'
             className='h-12'
+            disabled={isLoading}
             {...register('email', {
               required: 'This field is required',
             })}
@@ -103,6 +127,7 @@ const SignupForm = () => {
             type='password'
             placeholder='Create a password'
             className={`h-12 ${errors.password ? 'border border-red-500' : ''}`}
+            disabled={isLoading}
             {...register('password', {
               required: 'This field is required',
               minLength: {
@@ -123,6 +148,7 @@ const SignupForm = () => {
             type='password'
             placeholder='Confirm your password'
             className={`h-12 ${errors.confirmPassword ? 'border border-red-500' : ''}`}
+            disabled={isLoading}
             {...register('confirmPassword', {
               required: 'This field is required',
               validate: (value) => value === password || 'Passwords do not match',
@@ -133,19 +159,26 @@ const SignupForm = () => {
           )}
         </div>
 
-        <Button className='w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90 text-white'>
-          Create Account
+        <Button
+          type='submit'
+          className={`w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90  text-white ${isLoading ? 'cursor-not-allowed' : ''}`}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Creating Acount' : 'Create Account'}
+          {isLoading && <Loader className='animate-spin' />}
         </Button>
       </form>
 
-      {/* Login Link */}
       <div className='mt-8 text-center'>
         <p className='text-gray-600'>
           Already have an account?{' '}
           <Link to='/login' className='text-quiz-primary hover:underline font-medium'>
             Log in
           </Link>
-          <Link to='/auth/verify-email' className='text-quiz-primary hover:underline font-medium'>
+          <Link
+            to='/auth/verify-email'
+            className='ml-2 text-quiz-primary hover:underline font-medium'
+          >
             Verify Email
           </Link>
         </p>

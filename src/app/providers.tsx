@@ -14,7 +14,7 @@ const AppProviders: React.FC<ProvidersProps> = ({ children }) => (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Sonner />
+        <Sonner closeButton={true} pauseWhenPageIsHidden={true} position='top-center' />
         {children}
       </TooltipProvider>
     </QueryClientProvider>
