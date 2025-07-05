@@ -35,7 +35,7 @@ const FormSchema = z.object({
 });
 
 function VerifyEmail() {
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const [remainingTime, setRemainingTime] = useState(30);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -78,7 +78,8 @@ function VerifyEmail() {
                 <div>
                   <FormLabel className='text-2xl'>Enter your OTP</FormLabel>
                   <FormDescription className='text-lg'>
-                    Please enter the one-time password sent to your email.
+                    Please enter the one-time password sent to your email{' '}
+                    <span className='underline'>{user.email}</span>
                   </FormDescription>
                 </div>
                 <FormControl>

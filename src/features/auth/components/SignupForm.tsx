@@ -21,7 +21,7 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm();
 
-  const { setAccessToken } = useAuth();
+  const { setAccessToken, setUser } = useAuth();
   const navigate = useNavigate();
   const password = watch('password');
 
@@ -30,6 +30,7 @@ const SignupForm = () => {
     onSuccess: (data: LoginResponse) => {
       if (data.accessToken) {
         setAccessToken(data.accessToken);
+        setUser(data.user);
         toast.success('Account created successfully!');
         navigate('/auth/verify-email');
       }
