@@ -1,63 +1,63 @@
-import Landing from "@/pages/Landing";
-import SignUpPage from "@/pages/SignUpPage";
-import Login from "@/pages/Login";
-import Lobby from "@/pages/Lobby";
-import Profile from "@/pages/Profile";
-import Quiz from "@/pages/Quiz";
-import QuizFeed from "@/pages/QuizFeed";
-import NotFound from "@/pages/NotFound";
-import Layout from "@/common/components/layout/Layout";
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import VerifyEmail from "@/pages/VerifyEmail";
-import AuthPage from "@/pages/AuthPage";
+import Landing from '@/pages/Landing';
+import SignUpPage from '@/pages/SignUpPage';
+import Login from '@/pages/Login';
+import Lobby from '@/pages/Lobby';
+import Profile from '@/pages/Profile';
+import Quiz from '@/pages/Quiz';
+import QuizFeed from '@/pages/QuizFeed';
+import NotFound from '@/pages/NotFound';
+import Layout from '@/common/components/layout/Layout';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import VerifyEmail from '@/pages/VerifyEmail';
+import AuthPage from '@/pages/AuthPage';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
-        path: "",
+        path: '',
         element: <Landing />,
       },
       {
-        path: "auth",
+        path: 'auth',
         element: <AuthPage />,
         children: [
           {
-            path: "signup",
+            path: 'signup',
             element: <SignUpPage />,
           },
           {
-            path: "login",
+            path: 'login',
             element: <Login />,
           },
           {
-            path: "verify-email",
+            path: 'verify-email',
             element: <VerifyEmail />,
           },
         ],
       },
       {
-        path: "lobby",
+        path: 'lobby',
         element: <Lobby />,
       },
       {
-        path: "profile",
+        path: 'profile',
         element: <Profile />,
       },
       {
-        path: "quiz",
+        path: 'quiz',
         element: <Quiz />,
       },
       {
-        path: "feed",
+        path: 'feed',
         element: <QuizFeed />,
       },
     ],
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
   },
 ]);

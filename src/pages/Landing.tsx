@@ -1,15 +1,8 @@
-import { Button } from "@/common/components/ui/button";
-import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  Brain,
-  Calendar,
-  CheckCircle,
-  Trophy,
-  Users,
-} from "lucide-react";
-import QuizHero from "../common/components/landing/QuizHero";
-import QuizHeroV2 from "./QuizHeroV2";
+import { Button } from '@/common/components/ui/button';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Brain, Calendar, CheckCircle, Trophy, Users } from 'lucide-react';
+import QuizHero from '../common/components/landing/QuizHero';
+import QuizHeroV2 from './QuizHeroV2';
 
 const Landing = () => {
   return (
