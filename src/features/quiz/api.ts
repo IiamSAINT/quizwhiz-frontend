@@ -1,6 +1,6 @@
 import axiosInstance from '@/common/api/axiosInstance';
 
-async function createQuiz(quizData: object, token: string) {
+export async function createQuiz(quizData: object, token: string) {
   try {
     const data = await axiosInstance.post('quiz', quizData, {
       headers: {
@@ -11,5 +11,6 @@ async function createQuiz(quizData: object, token: string) {
     return data;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }

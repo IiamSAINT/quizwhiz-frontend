@@ -10,6 +10,7 @@ import {
 import { Badge } from '@/common/components/ui/badge';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
+import CreateQuizModal from '@/features/quiz/components/CreateQuizModal';
 
 // Mock quiz data
 const mockQuizzes = [
@@ -108,6 +109,7 @@ const difficultyOptions = [
 ];
 
 const QuizFeed = () => {
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [quizzes] = useState(mockQuizzes);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -142,8 +144,15 @@ const QuizFeed = () => {
               <h1 className='text-3xl font-bold'>Discover Quizzes</h1>
               <p className='text-gray-600'>Find and join public quizzes on various topics</p>
             </div>
-            <Button className='bg-quiz-primary hover:bg-quiz-secondary'>Create New Quiz</Button>
+            <Button
+              className='bg-quiz-primary hover:bg-quiz-secondary'
+              onClick={() => setIsCreateModalOpen(true)}
+            >
+              Create New Quiz
+            </Button>
           </div>
+
+          <CreateQuizModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
 
           {/* Search and Filters */}
           <div className='bg-white rounded-xl shadow-sm p-6 mb-8'>
