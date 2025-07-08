@@ -18,10 +18,8 @@ export async function verifyEmail(verificationCode: string, token: string) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
     return data;
   } catch (err) {
-    console.error(err);
     throw err;
   }
 }
@@ -29,7 +27,6 @@ export async function verifyEmail(verificationCode: string, token: string) {
 export async function loginWithEmail(userDetails: LoginWithEmailParams) {
   try {
     const { data } = await axiosInstance.post(`auth/login`, userDetails);
-    console.log(data);
     return data;
   } catch (err) {
     throw err;
@@ -43,9 +40,8 @@ export async function resendEmailVerificationCode(token: string) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
     return data;
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 }
