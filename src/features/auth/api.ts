@@ -22,6 +22,7 @@ export async function verifyEmail(verificationCode: string, token: string) {
     return data;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }
 

@@ -26,7 +26,9 @@ import {
 import { verifyEmail, resendEmailVerificationCode } from '@/features/auth/api';
 import { useAuth } from '@/features/auth/useAuth';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -37,6 +39,18 @@ const FormSchema = z.object({
 function VerifyEmail() {
   const { accessToken, user } = useAuth();
   const [remainingTime, setRemainingTime] = useState(30);
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: (data: z.infer<typeof FormSchema>) => verifyEmail(data.pin, accessToken),
+    onSuccess: (data) => {
+      toast('Email verification successful');
+      navigate('/feed');
+    },
+    onError: (data) => {
+      toast('Invalid verification code');
+    },
+  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -46,7 +60,7 @@ function VerifyEmail() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    verifyEmail(data.pin, accessToken);
+    mutation.mutate(data);
   }
 
   useEffect(() => {
@@ -58,8 +72,6 @@ function VerifyEmail() {
 
     return () => clearTimeout(timerId);
   }, [remainingTime]);
-
-  console.log(remainingTime);
 
   // todo handle errors for wrong invalid codes here and navigate
   function resendCode() {
