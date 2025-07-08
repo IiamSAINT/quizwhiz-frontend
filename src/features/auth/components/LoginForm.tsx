@@ -9,6 +9,7 @@ import { LoginResponse, LoginWithEmailParams } from '../types';
 import { Button } from '@/common/components/ui/button';
 import { useAuth } from '../useAuth';
 import { toast } from 'sonner';
+import { Loader } from 'lucide-react';
 
 const LoginForm = () => {
   const { register, reset, handleSubmit } = useForm();
@@ -30,6 +31,8 @@ const LoginForm = () => {
       toast.error('Invalid user credentials');
     },
   });
+
+  const isLoading = mutation.isPending;
 
   function onSubmit(data: LoginWithEmailParams) {
     mutation.mutate(data);
@@ -64,8 +67,12 @@ const LoginForm = () => {
         />
       </div>
 
-      <Button className='w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90 text-white'>
-        Log In
+      <Button
+        className={`w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90 text-white ${isLoading && 'cursor-not-allowed'}`}
+        disabled={isLoading}
+      >
+        {isLoading ? 'Signing in' : 'Log In'}
+        {isLoading && <Loader className='animate-spin' />}
       </Button>
     </form>
   );
