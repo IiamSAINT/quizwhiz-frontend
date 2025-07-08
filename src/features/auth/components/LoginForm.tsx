@@ -2,23 +2,36 @@ import { Input } from '@/common/components/ui/input';
 import { Label } from '@/common/components/ui/label';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { loginWithEmail } from '../api';
+import { LoginResponse, LoginWithEmailParams } from '../types';
 import { Button } from '@/common/components/ui/button';
+import { useAuth } from '../useAuth';
+import { toast } from 'sonner';
 
 const LoginForm = () => {
   const { register, reset, handleSubmit } = useForm();
+  const { setAccessToken, setUser } = useAuth();
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: loginWithEmail,
-    onSuccess: (data) => {
-      console.log('Success:', data);
+    onSuccess: (data: LoginResponse) => {
+      if (data.accessToken) {
+        setAccessToken(data.accessToken);
+        setUser(data.user);
+        toast.success('Login successfully!');
+        navigate('/feed');
+      }
       reset();
+    },
+    onError: () => {
+      toast.error('Invalid user credentials');
     },
   });
 
-  function onSubmit(data: object) {
+  function onSubmit(data: LoginWithEmailParams) {
     mutation.mutate(data);
   }
 

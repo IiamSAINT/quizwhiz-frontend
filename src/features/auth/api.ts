@@ -28,11 +28,11 @@ export async function verifyEmail(verificationCode: string, token: string) {
 
 export async function loginWithEmail(userDetails: LoginWithEmailParams) {
   try {
-    const data = await axiosInstance.post(`auth/login`, userDetails);
+    const { data } = await axiosInstance.post(`auth/login`, userDetails);
     console.log(data);
     return data;
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 }
 
