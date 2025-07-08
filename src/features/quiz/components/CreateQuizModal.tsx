@@ -6,21 +6,17 @@ import { Input } from '@/common/components/ui/input';
 import { Textarea } from '@/common/components/ui/textarea';
 import { Label } from '@/common/components/ui/label';
 import { Badge } from '@/common/components/ui/badge';
+import { createQuiz } from '../api';
+import { useMutation } from '@tanstack/react-query';
 
-interface CreateQuizFormData {
-  title: string;
-  description: string;
-  tags: string[];
-}
-
-interface CreateQuizModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { CreateQuizModalProps, CreateQuizFormData } from '../types';
+import { useAuth } from '@/features/auth/useAuth';
+import { toast } from 'sonner';
 
 const CreateQuizModal = ({ isOpen, onClose }: CreateQuizModalProps) => {
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState<string[]>([]);
+  const { accessToken } = useAuth();
 
   const {
     register,
@@ -61,26 +57,23 @@ const CreateQuizModal = ({ isOpen, onClose }: CreateQuizModalProps) => {
     }
   };
 
-  const onSubmit = async (data: CreateQuizFormData) => {
-    try {
-      // Here you would typically send the data to your backend
-      console.log('Quiz data:', {
-        title: data.title,
-        description: data.description,
-        tags: tags,
-      });
-
-      // Reset form and close modal
+  const mutation = useMutation({
+    mutationFn: (quizData: CreateQuizFormData) => createQuiz(quizData, accessToken),
+    onSuccess: (data) => {
       reset();
       setTags([]);
       setTagInput('');
       onClose();
 
-      // You could add a toast notification here for success
-    } catch (error) {
-      console.error('Error creating quiz:', error);
-      // You could add error handling/toast here
-    }
+      toast('Quiz created successfully');
+    },
+    onError: (error) => {
+      toast('Error creating quiz');
+    },
+  });
+
+  const onSubmit = async (data: CreateQuizFormData) => {
+    mutation.mutate(data);
   };
 
   const handleClose = () => {
@@ -178,11 +171,7 @@ const CreateQuizModal = ({ isOpen, onClose }: CreateQuizModalProps) => {
             {tags.length > 0 && (
               <div className='flex flex-wrap gap-2 mt-3'>
                 {tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant='secondary'
-                    className='flex items-center gap-1 px-3 py-1'
-                  >
+                  <Badge key={tag} variant='default' className='flex items-center gap-1 px-3 py-1'>
                     <Tag className='h-3 w-3' />
                     {tag}
                     <button
