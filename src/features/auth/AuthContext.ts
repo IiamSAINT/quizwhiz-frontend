@@ -2,10 +2,11 @@ import { createContext } from 'react';
 import { User } from './types';
 
 type AuthContextType = {
-  accessToken: string | null;
+  isLoggedIn: boolean;
   user: User | null;
-  setAccessToken: (token: string | null) => void;
-  setUser: (user: User | null) => void;
+  setUser: (user: User) => void;
+  authPending: boolean;
+  authError: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

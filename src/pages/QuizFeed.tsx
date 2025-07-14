@@ -11,6 +11,7 @@ import { Badge } from '@/common/components/ui/badge';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 import CreateQuizModal from '@/features/quiz/components/CreateQuizModal';
+import { useAuth } from '@/features/auth/useAuth';
 
 // Mock quiz data
 const mockQuizzes = [
@@ -112,6 +113,9 @@ const QuizFeed = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [quizzes] = useState(mockQuizzes);
   const [searchQuery, setSearchQuery] = useState('');
+  const { user, isLoggedIn } = useAuth();
+
+  const isAuthenticated = Boolean(isLoggedIn && !!user);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -144,12 +148,14 @@ const QuizFeed = () => {
               <h1 className='text-3xl font-bold'>Discover Quizzes</h1>
               <p className='text-gray-600'>Find and join public quizzes on various topics</p>
             </div>
-            <Button
-              className='bg-quiz-primary hover:bg-quiz-secondary'
-              onClick={() => setIsCreateModalOpen(true)}
-            >
-              Create New Quiz
-            </Button>
+            {isAuthenticated && (
+              <Button
+                className='bg-quiz-primary hover:bg-quiz-secondary'
+                onClick={() => setIsCreateModalOpen(true)}
+              >
+                Create New Quiz
+              </Button>
+            )}
           </div>
 
           <CreateQuizModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />

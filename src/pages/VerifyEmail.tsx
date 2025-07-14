@@ -1,19 +1,22 @@
-'use client';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
-import { Button } from '@/common/components/ui/button';
+import { verifyEmail, resendEmailVerificationCode } from '@/features/auth/api';
+import { useAuth } from '@/features/auth/useAuth';
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 
 import {
   Form,
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
+  FormDescription,
   FormMessage,
 } from '@/common/components/ui/form';
 
@@ -23,64 +26,63 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/common/components/ui/input-otp';
-import { verifyEmail, resendEmailVerificationCode } from '@/features/auth/api';
-import { useAuth } from '@/features/auth/useAuth';
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { Button } from '@/common/components/ui/button';
 
 const FormSchema = z.object({
-  pin: z.string().min(6, {
-    message: 'Your one-time password must be 6 characters.',
-  }),
+  pin: z.string().min(6, { message: 'OTP must be 6 characters long' }),
 });
 
-function VerifyEmail() {
-  const { accessToken, user } = useAuth();
-  const [remainingTime, setRemainingTime] = useState(30);
+const VerifyEmail = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: (data: z.infer<typeof FormSchema>) => verifyEmail(data.pin, accessToken),
-    onSuccess: (data) => {
-      toast('Email verification successful');
-      navigate('/feed');
-    },
-    onError: (data) => {
-      toast('Invalid verification code');
-    },
-  });
+  const [remainingTime, setRemainingTime] = useState(30);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      pin: '',
+    defaultValues: { pin: '' },
+  });
+
+  const verifyMutation = useMutation({
+    mutationFn: (data: z.infer<typeof FormSchema>) => verifyEmail(data.pin),
+    onSuccess: () => {
+      toast.success('Email verified successfully');
+      navigate('/feed');
+    },
+    onError: () => {
+      toast.error('Invalid verification code');
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    mutation.mutate(data);
-  }
+  const resendMutation = useMutation({
+    mutationFn: resendEmailVerificationCode,
+    onSuccess: () => {
+      toast.success('Verification code resent');
+    },
+    onError: () => {
+      toast.error('Failed to resend code');
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof FormSchema>) => {
+    verifyMutation.mutate(data);
+  };
+
+  const resendCode = () => {
+    if (remainingTime === 0) {
+      resendMutation.mutate();
+      setRemainingTime(30);
+    }
+  };
 
   useEffect(() => {
     if (remainingTime <= 0) return;
-
-    const timerId = setTimeout(() => {
-      setRemainingTime((time) => time - 1);
-    }, 1000);
-
-    return () => clearTimeout(timerId);
+    const timer = setTimeout(() => setRemainingTime((t) => t - 1), 1000);
+    return () => clearTimeout(timer);
   }, [remainingTime]);
 
-  // todo handle errors for wrong invalid codes here and navigate
-  function resendCode() {
-    resendEmailVerificationCode(accessToken);
-    setRemainingTime(30);
-  }
-
   return (
-    <div className='h-96 flex items-center justify-center'>
+    <div className='h-96 flex flex-col items-center justify-center gap-4'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
@@ -91,8 +93,8 @@ function VerifyEmail() {
                 <div>
                   <FormLabel className='text-2xl'>Enter your OTP</FormLabel>
                   <FormDescription className='text-lg'>
-                    Please enter the one-time password sent to your email{' '}
-                    <span className='underline'>{user.email}</span>
+                    Sent to your email{' '}
+                    <span className='underline'>{user?.email ?? '[email not available]'}</span>
                   </FormDescription>
                 </div>
                 <FormControl>
@@ -110,20 +112,25 @@ function VerifyEmail() {
                     </InputOTPGroup>
                   </InputOTP>
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <Button type='submit'>Submit</Button>
+          <Button type='submit' disabled={verifyMutation.isPending}>
+            {verifyMutation.isPending ? 'Verifying...' : 'Submit'}
+          </Button>
         </form>
       </Form>
-      <button onClick={resendCode} disabled={Boolean(remainingTime)}>
-        {remainingTime > 0 ? `Resend code in ${remainingTime}` : 'Resend code'}
-      </button>
+
+      <Button
+        onClick={resendCode}
+        disabled={remainingTime > 0 || resendMutation.isPending}
+        variant='ghost'
+      >
+        {remainingTime > 0 ? `Resend code in ${remainingTime}s` : 'Resend code'}
+      </Button>
     </div>
   );
-}
+};
 
 export default VerifyEmail;

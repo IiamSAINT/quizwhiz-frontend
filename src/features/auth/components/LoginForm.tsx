@@ -10,21 +10,27 @@ import { Button } from '@/common/components/ui/button';
 import { useAuth } from '../useAuth';
 import { toast } from 'sonner';
 import { Loader } from 'lucide-react';
+import axiosInstance from '@/common/api/axiosInstance';
 
 const LoginForm = () => {
   const { register, reset, handleSubmit } = useForm();
-  const { setAccessToken, setUser } = useAuth();
+  const { setUser } = useAuth(); // only need setUser now
   const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: loginWithEmail,
     onSuccess: (data: LoginResponse) => {
-      if (data.accessToken) {
-        setAccessToken(data.accessToken);
-        setUser(data.user);
-        toast.success('Login successfully!');
+      const { accessToken, user } = data;
+
+      if (accessToken && user) {
+        // Set global Authorization header
+        axiosInstance.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+        setUser(user);
+
+        toast.success('Logged in successfully!');
         navigate('/feed');
       }
+
       reset();
     },
     onError: () => {
@@ -34,9 +40,9 @@ const LoginForm = () => {
 
   const isLoading = mutation.isPending;
 
-  function onSubmit(data: LoginWithEmailParams) {
+  const onSubmit = (data: LoginWithEmailParams) => {
     mutation.mutate(data);
-  }
+  };
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
@@ -68,11 +74,18 @@ const LoginForm = () => {
       </div>
 
       <Button
+        type='submit'
         className={`w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90 text-white ${isLoading && 'cursor-not-allowed'}`}
         disabled={isLoading}
       >
-        {isLoading ? 'Signing in' : 'Log In'}
-        {isLoading && <Loader className='animate-spin' />}
+        {isLoading ? (
+          <div className='flex items-center gap-2'>
+            <Loader className='animate-spin' size={20} />
+            Signing in
+          </div>
+        ) : (
+          'Log In'
+        )}
       </Button>
     </form>
   );
