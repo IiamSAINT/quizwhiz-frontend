@@ -7,10 +7,11 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '@/features/auth/useAuth';
 import { toast } from 'sonner';
+import { AxiosError } from 'axios';
 
 import { signUpWithEmail } from '../api';
 import { LoginResponse, SignUpWithEmailParams } from '../types';
-import { AxiosError } from 'axios';
+import axiosInstance from '@/common/api/axiosInstance';
 
 const SignupForm = () => {
   const {
@@ -21,19 +22,22 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm();
 
-  const { setAccessToken, setUser } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const password = watch('password');
 
   const mutation = useMutation({
     mutationFn: signUpWithEmail,
     onSuccess: (data: LoginResponse) => {
-      if (data.accessToken) {
-        setAccessToken(data.accessToken);
-        setUser(data.user);
+      const { accessToken, user } = data;
+
+      if (accessToken && user) {
+        axiosInstance.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+        setUser(user);
         toast.success('Account created successfully!');
         navigate('/auth/verify-email');
       }
+
       reset();
     },
     onError: onError,
@@ -46,22 +50,17 @@ const SignupForm = () => {
   };
 
   function onError(err: AxiosError) {
-    console.log(err.response);
     if (
-      err.response &&
-      err.response.data &&
+      err.response?.data &&
       typeof err.response.data === 'object' &&
       'message' in err.response.data
     ) {
       toast.error((err.response.data as { message: string }).message);
-      return;
+    } else if (err.request) {
+      toast.error("We couldn't reach the server. Check your connection.");
+    } else {
+      toast.error('Something went wrong. Please try again later.');
     }
-
-    if (err.request) {
-      toast.error("We couldn't reach the server. Please check your connection and try again.");
-      return;
-    }
-    toast.error('Something went wrong please try again later');
   }
 
   return (
@@ -80,7 +79,7 @@ const SignupForm = () => {
           disabled={isLoading}
         >
           <Github className='h-5 w-5 text-gray-700' />
-          <span>Continue with Github</span>
+          <span>Continue with GitHub</span>
         </Button>
       </div>
 
@@ -101,9 +100,7 @@ const SignupForm = () => {
             placeholder='Enter your full name'
             className='h-12'
             disabled={isLoading}
-            {...register('name', {
-              required: 'This field is required',
-            })}
+            {...register('name', { required: 'This field is required' })}
           />
         </div>
 
@@ -115,9 +112,7 @@ const SignupForm = () => {
             placeholder='Enter your email'
             className='h-12'
             disabled={isLoading}
-            {...register('email', {
-              required: 'This field is required',
-            })}
+            {...register('email', { required: 'This field is required' })}
           />
         </div>
 
@@ -162,11 +157,19 @@ const SignupForm = () => {
 
         <Button
           type='submit'
-          className={`w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90  text-white ${isLoading ? 'cursor-not-allowed' : ''}`}
+          className={`w-full h-12 bg-quiz-primary hover:bg-quiz-primary/90 text-white ${
+            isLoading ? 'cursor-not-allowed' : ''
+          }`}
           disabled={isLoading}
         >
-          {isLoading ? 'Creating Acount' : 'Create Account'}
-          {isLoading && <Loader className='animate-spin' />}
+          {isLoading ? (
+            <div className='flex items-center gap-2'>
+              <Loader className='animate-spin' size={20} />
+              Creating Account
+            </div>
+          ) : (
+            'Create Account'
+          )}
         </Button>
       </form>
 

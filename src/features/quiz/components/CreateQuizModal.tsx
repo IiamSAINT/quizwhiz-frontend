@@ -16,7 +16,6 @@ import { toast } from 'sonner';
 const CreateQuizModal = ({ isOpen, onClose }: CreateQuizModalProps) => {
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState<string[]>([]);
-  const { accessToken } = useAuth();
 
   const {
     register,
@@ -58,7 +57,7 @@ const CreateQuizModal = ({ isOpen, onClose }: CreateQuizModalProps) => {
   };
 
   const mutation = useMutation({
-    mutationFn: (quizData: CreateQuizFormData) => createQuiz(quizData, accessToken),
+    mutationFn: (quizData: CreateQuizFormData) => createQuiz(quizData),
     onSuccess: (data) => {
       reset();
       setTags([]);

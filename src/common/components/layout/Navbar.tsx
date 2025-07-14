@@ -1,51 +1,85 @@
 import { Button } from '@/common/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useAuth } from '@/features/auth/useAuth';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/common/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, isLoggedIn } = useAuth();
+
+  const isAuthenticated = Boolean(user && isLoggedIn);
+
+  const avatar = (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className='w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700 hover:bg-gray-300'>
+          {user?.name?.charAt(0).toUpperCase() || 'U'}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='end' className='w-40'>
+        <DropdownMenuItem asChild>
+          <Link to='/dashboard'>Dashboard</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to='/profile'>Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => console.log('TODO: Logout')}>Logout</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
   return (
     <nav className='bg-white py-4 shadow-sm'>
       <div className='container mx-auto px-4 flex justify-between items-center'>
+        {/* Logo */}
         <Link to='/' className='flex items-center'>
           <span className='text-2xl font-bold bg-gradient-to-r from-quiz-primary to-quiz-blue text-transparent bg-clip-text'>
             QuizWhizz
           </span>
         </Link>
 
-        <div className='hidden md:flex items-center space-x-8'>
+        {/* Center Nav Links */}
+        <div className='hidden md:flex items-center space-x-8 mx-auto'>
           <Link to='/' className='nav-link font-medium'>
             Home
           </Link>
           <Link to='/feed' className='nav-link font-medium'>
             Explore
           </Link>
-          <Link to='/profile' className='nav-link font-medium'>
-            Profile
+          <Link to='/friends' className='nav-link font-medium'>
+            Friends
           </Link>
-          <div className='flex space-x-3'>
-            <Link to='auth/signup'>
-              <Button variant='outline' className='rounded-full'>
-                Sign Up
-              </Button>
-            </Link>
-            <Link to='auth/login'>
-              <Button className='rounded-full bg-quiz-primary hover:bg-quiz-secondary'>
-                Login
-              </Button>
-            </Link>
-          </div>
         </div>
 
+        {/* Right Auth Buttons or Avatar */}
+        <div className='hidden md:flex items-center space-x-4'>
+          {isAuthenticated ? (
+            avatar
+          ) : (
+            <>
+              <Link to='/auth/signup'>
+                <Button variant='outline' className='rounded-full'>
+                  Sign Up
+                </Button>
+              </Link>
+              <Link to='/auth/login'>
+                <Button className='rounded-full bg-quiz-primary text-white hover:bg-quiz-secondary'>
+                  Login
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Mobile Toggle */}
         <button className='md:hidden' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <svg
-            className='w-6 h-6'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'
-          >
+          <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
             {isMobileMenuOpen ? (
               <path
                 strokeLinecap='round'
@@ -71,35 +105,58 @@ const Navbar = () => {
           <div className='container mx-auto px-4 py-3 space-y-3'>
             <Link
               to='/'
-              className='block py-2 px-4 text-sm hover:bg-gray-50 rounded-md'
               onClick={() => setIsMobileMenuOpen(false)}
+              className='block py-2 px-4 text-sm hover:bg-gray-50 rounded-md'
             >
               Home
             </Link>
             <Link
               to='/feed'
-              className='block py-2 px-4 text-sm hover:bg-gray-50 rounded-md'
               onClick={() => setIsMobileMenuOpen(false)}
+              className='block py-2 px-4 text-sm hover:bg-gray-50 rounded-md'
             >
               Explore
             </Link>
             <Link
-              to='/profile'
-              className='block py-2 px-4 text-sm hover:bg-gray-50 rounded-md'
+              to='/friends'
               onClick={() => setIsMobileMenuOpen(false)}
+              className='block py-2 px-4 text-sm hover:bg-gray-50 rounded-md'
             >
-              Profile
+              Friends
             </Link>
-            <div className='flex flex-col space-y-2 p-4'>
-              <Link to='/signup' onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant='outline' className='w-full rounded-full'>
-                  Sign Up
+
+            {isAuthenticated ? (
+              <div className='space-y-2'>
+                <Link to='/dashboard' onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button className='w-full'>Dashboard</Button>
+                </Link>
+                <Link to='/profile' onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant='outline' className='w-full'>
+                    Profile
+                  </Button>
+                </Link>
+                <Button
+                  variant='ghost'
+                  className='w-full'
+                  onClick={() => console.log('TODO: Logout')}
+                >
+                  Logout
                 </Button>
-              </Link>
-              <Button className='w-full rounded-full bg-quiz-primary hover:bg-quiz-secondary'>
-                Login
-              </Button>
-            </div>
+              </div>
+            ) : (
+              <div className='flex flex-col space-y-2 p-4'>
+                <Link to='/auth/signup'>
+                  <Button variant='outline' className='w-full rounded-full'>
+                    Sign Up
+                  </Button>
+                </Link>
+                <Link to='/auth/login'>
+                  <Button className='w-full rounded-full bg-quiz-primary hover:bg-quiz-secondary text-white'>
+                    Login
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}
