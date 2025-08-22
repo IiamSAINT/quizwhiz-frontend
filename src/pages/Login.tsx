@@ -53,7 +53,7 @@ const Login = () => {
                       />
                       <span
                         className={`block w-full h-[1px] absolute bottom-0 left-0 rounded-lg transition-all duration-500
-    bg-black/10 group-hover:h-[1.5px] group-hover:bg-blue-400 group-hover:shadow-md group-focus-within:bg-blue-500 group-focus-within:h-[2px] group-focus-within:shadow-lg
+    bg-black/10 group-hover:h-[2px] group-hover:bg-blue-400 group-hover:shadow-md group-focus-within:bg-blue-500 group-focus-within:h-[2px] group-focus-within:shadow-lg
   `}
                       ></span>
                     </div>
@@ -95,8 +95,8 @@ const Login = () => {
 
                   {/* Login Button */}
                   <Button
-                    className={`group w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500
-    hover:from-purple-600 hover:to-blue-600 text-white font-semibold text-base py-3
+                    className={`group w-full flex items-center justify-center gap-2 rounded-xl bg-blue-800
+    hover:bg-blue-600 text-white font-semibold text-base py-3
     shadow-lg hover:shadow-xl transition-all duration-300
     focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
     active:scale-95
@@ -114,7 +114,7 @@ const Login = () => {
                   </div>
                   <div className="relative flex justify-center text-xs sm:text-[.8rem]">
                     <span className="px-2 bg-white text-uiGray-500 rounded-2xl">
-                      or continue with Gmail
+                      or 
                     </span>
                   </div>
                 </div>
