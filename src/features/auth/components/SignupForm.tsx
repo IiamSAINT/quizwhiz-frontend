@@ -2,15 +2,15 @@ import { Button } from '@/common/components/ui/button';
 import { Input } from '@/common/components/ui/input';
 import { Label } from '@/common/components/ui/label';
 import { Link, useNavigate } from 'react-router-dom';
-import { Github, Loader } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '@/features/auth/useAuth';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FaRegEye, FaRegEyeSlash, FaUser, FaLock } from 'react-icons/fa6';
-import { MdAlternateEmail } from 'react-icons/md';
+import { MdAlternateEmail, MdMarkEmailRead, MdErrorOutline } from 'react-icons/md';
 import { FaShieldAlt } from 'react-icons/fa';
 import { RiUser3Line } from "react-icons/ri";
 import { SiGmail } from "react-icons/si";
@@ -18,6 +18,9 @@ import { signUpWithEmail } from '../api';
 import { LoginResponse, SignUpWithEmailParams } from '../types';
 import axiosInstance from '@/common/api/axiosInstance';
 import { PiCheckCircleDuotone } from "react-icons/pi";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { FcGoogle } from "react-icons/fc";
+import { MdVerified } from "react-icons/md";
 
 const getPasswordStrength = (password: string) => {
   if (!password) return { score: 0, label: 'Bad', color: 'bg-red-500' };
@@ -86,24 +89,28 @@ const SignupForm = () => {
     }
   }
 
+  // Alert immediately when a space is typed in the email field, but only once per change
+  const emailSpaceAlerted = useRef(false);
+
+  useEffect(() => {
+    const email = watch('email');
+    if (email && email.includes(' ')) {
+      if (!emailSpaceAlerted.current) {
+        toast.error('Email cannot contain spaces.');
+        emailSpaceAlerted.current = true;
+      }
+    } else {
+      emailSpaceAlerted.current = false;
+    }
+  }, [watch('email')]);
+
   return (
-    <div className='p-8 md:p-12 lg:p-16'>
+    <div className='p-8 md:p-12 lg:p-16 font-poppins'>
       <div className='mb-8'>
         <h1 className='text-3xl font-bold mb-3'>Create an account</h1>
-        <p className='text-gray-600'>
+        <p className='text-gray-400 text-sm'>
           Join thousands of quiz enthusiasts and start creating interactive quizzes today!
         </p>
-      </div>
-
-      <div className='mb-8'>
-        <Button
-          variant='outline'
-          className='w-full flex items-center justify-center gap-2 h-12 border-gray-300 hover:bg-gray-50'
-          disabled={isLoading}
-        >
-          <Github className='h-5 w-5 text-gray-700' />
-          <span>Continue with GitHub</span>
-        </Button>
       </div>
 
       <div className='relative mb-8'>
@@ -144,10 +151,20 @@ const SignupForm = () => {
               id='email'
               type='email'
               placeholder='Email address'
-              className='w-full h-full bg-transparent border-none pl-9 text-black placeholder-black/30 focus:outline-none text-base font-medium placeholder:text-xs placeholder:font-bold'
+              className='w-full h-full bg-transparent border-none pl-9 pr-9 text-black placeholder-black/30 focus:outline-none text-base font-medium placeholder:text-xs placeholder:font-bold'
               disabled={isLoading}
               {...register('email', { required: 'This field is required' })}
             />
+            {/* Mark icon appears if email contains "@" or space */}
+            {watch('email')?.includes(' ') ? (
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500">
+                <MdErrorOutline size={22} />
+              </span>
+            ) : watch('email')?.includes('@') ? (
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500">
+                <IoMdCheckmarkCircleOutline size={22} />
+              </span>
+            ) : null}
             <span className='block w-full h-[2px] absolute bottom-0 left-0 rounded-lg transition-all duration-500 bg-[#e0e7ff] group-hover:bg-indigo-400 group-hover:shadow-md group-focus-within:bg-indigo-500 group-focus-within:shadow-lg'></span>
           </div>
         </div>
@@ -202,40 +219,42 @@ const SignupForm = () => {
           <div className='text-xs mt-1 font-semibold' style={{ color: passwordStrength.color.replace('bg-', '') }}>
             {passwordStrength.label} password
           </div>
-          {/* Password Checklist */}
-          <div className="mt-2 space-y-1 text-sm">
+    
+          
+        </div>
+              {/* Password Checklist */}
+          <div className="mt-2 space-y-1 text-sm relative">
             {/* At least 9 characters */}
             <div className="flex items-center gap-2">
-              <PiCheckCircleDuotone
+              <MdVerified
                 size={18}
-                className={password && password.length >= 9 ? "text-green-500" : "text-gray-400"}
+                className={password && password.length >= 9 ? "text-blue-500" : "text-gray-400"}
               />
-              <span className={password && password.length >= 9 ? "text-green-600 font-medium" : "text-gray-500"}>
+              <span className={password && password.length >= 9 ? "text-blue-600 font-medium" : "text-gray-500"}>
                 Password must be at least 9 characters
               </span>
             </div>
             {/* Lowercase and Uppercase */}
             <div className="flex items-center gap-2">
-              <PiCheckCircleDuotone
+              <MdVerified
                 size={18}
-                className={password && /[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-green-500" : "text-gray-400"}
+                className={password && /[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-blue-500" : "text-gray-400"}
               />
-              <span className={password && /[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-green-600 font-medium" : "text-gray-500"}>
+              <span className={password && /[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-blue-600 font-medium" : "text-gray-500"}>
                 Lowercase [a-z] and Uppercase [A-Z]
               </span>
             </div>
             {/* Symbol and Number */}
             <div className="flex items-center gap-2">
-              <PiCheckCircleDuotone
+              <MdVerified
                 size={18}
-                className={password && /[^A-Za-z0-9]/.test(password) && /[0-9]/.test(password) ? "text-green-500" : "text-gray-400"}
+                className={password && /[^A-Za-z0-9]/.test(password) && /[0-9]/.test(password) ? "text-blue-500" : "text-gray-400"}
               />
-              <span className={password && /[^A-Za-z0-9]/.test(password) && /[0-9]/.test(password) ? "text-green-600 font-medium" : "text-gray-500" }>
+              <span className={password && /[^A-Za-z0-9]/.test(password) && /[0-9]/.test(password) ? "text-blue-600 font-medium" : "text-gray-500"}>
                 Contain a Symbol[!-&] Number [1-9]
               </span>
             </div>
           </div>
-        </div>
           
               {/* Confirm Password */}
         <div className='space-y-2 h-12 group'>
@@ -309,6 +328,17 @@ const SignupForm = () => {
           ) : (
             'Create Account'
           )}
+        </Button>
+
+        {/* Continue with Google button */}
+        <Button
+          type='button'
+          variant='outline'
+          className='w-full flex items-center justify-center gap-2 h-12 border-gray-300 hover:bg-gray-50 mt-4'
+          disabled={isLoading}
+        >
+          <FcGoogle className='h-5 w-5' />
+          <span>Continue with Google</span>
         </Button>
       </form>
 

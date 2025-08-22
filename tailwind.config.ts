@@ -76,6 +76,7 @@ export default {
   		},
   		fontFamily: {
   			sans: [
+  				'Poppins', // Add Poppins as the first font
   				'Inter',
   				'sans-serif'
   			]

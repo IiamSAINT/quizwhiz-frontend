@@ -15,13 +15,13 @@ const Login = () => {
 
 
   return (
-    <div className="min-h-screen bg-slate-300 py-10 sm:py-12 flex justify-center items-center">
+    <div className="min-h-screen bg-slate-300 sm:py-2 flex justify-center items-center">
       <div className="container mx-auto">
         <div className="max-w-xs sm:max-w-md md:max-w-6xl mx-auto transform scale-[1.1] sm:scale-100 transition-transform duration-300">
           <div className="bg-white backdrop-blur-md rounded-xl shadow-md overflow-hidden w-full">
             <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr]">
               {/* Form Section */}
-              <div className="p-6 sm:p-8 md:p-12 max-w-xs sm:max-w-sm md:max-w-lg mx-auto w-full">
+              <div className="p-2 sm:p-6 md:p-8 max-w-xs sm:max-w-sm md:max-w-lg mx-auto w-full">
                 <div className="mb-6 sm:mb-8">
                   <h1 className="text-xl sm:text-xl md:text-3xl font-bold mb-2 sm:mb-3 text-black">
                     Welcome back
@@ -142,27 +142,18 @@ const Login = () => {
               </div>
 
               {/* Right side - Illustration */}
-              <div className="hidden md:block bg-slate-800 relative overflow-hidden rounded-r-xl">
-                <div className="absolute inset-0 bg-black/20 backdrop-blur-sm z-0"></div>
-                <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
-                  <div className="text-center">
-                    <div className="mb-6">
-                      <div className="w-32 h-32 bg-white rounded-full shadow-lg mx-auto flex items-center justify-center animate-pulse">
-                        <Brain className="h-16 w-16 text-quiz-primary" />
-                      </div>
-                    </div>
-                    <h3 className="text-2xl font-bold text-white/90 mb-3">Challenge Your Mind</h3>
-                    <p className="text-white/80 shadow-sm max-w-md">
-                      Log back in to continue testing your knowledge and competing with friends.
-                    </p>
-                    {/* Floating decorations */}
-                    <div className="absolute top-10 left-10 w-16 h-16 bg-white/10 rounded-full"></div>
-                    <div className="absolute bottom-10 right-10 w-24 h-24 bg-white/10 rounded-full"></div>
-                    <div className="absolute top-1/2 right-10 w-12 h-12 bg-white/20 rounded-full"></div>
-                    <div className="absolute bottom-1/4 left-10 w-20 h-20 bg-white/10 rounded-full"></div>
+             {/* Right side - Illustration */}
+                <div className="hidden md:block bg-white relative overflow-hidden rounded-r-xl">
+                  
+                  <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
+                    <img
+                      src="/images/Illustration.gif"
+                      alt="Login Illustration"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
-              </div>
+
               {/* End Right side */}
             </div>
           </div>
